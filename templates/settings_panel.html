@@ -1,0 +1,412 @@
+<div id="memoryvault_settings">
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b>MemoryVault</b>
+            <span id="memoryvault_status" class="memoryvault-status ready">Ready</span>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+        </div>
+        <div class="inline-drawer-content">
+            <!-- Tab Navigation -->
+            <div class="memoryvault-tab-nav">
+                <button class="memoryvault-tab-btn active" data-tab="dashboard">
+                    <i class="fa-solid fa-gauge-high"></i> Dashboard
+                </button>
+                <button class="memoryvault-tab-btn" data-tab="memory-bank">
+                    <i class="fa-solid fa-brain"></i> Memory Bank
+                </button>
+                <button class="memoryvault-tab-btn" data-tab="configuration">
+                    <i class="fa-solid fa-sliders"></i> Config
+                </button>
+                <button class="memoryvault-tab-btn" data-tab="system">
+                    <i class="fa-solid fa-gear"></i> System
+                </button>
+            </div>
+
+            <!-- ================================================================
+                 TAB 1: DASHBOARD
+                 ================================================================ -->
+            <div class="memoryvault-tab-content active" data-tab="dashboard">
+                <!-- Status Card -->
+                <div class="memoryvault-card memoryvault-status-card">
+                    <div class="memoryvault-status-indicator ready" id="memoryvault_status_indicator">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div class="memoryvault-status-info">
+                        <div class="memoryvault-status-text" id="memoryvault_status_text">Ready</div>
+                        <div class="memoryvault-status-subtext" id="memoryvault_status_subtext">MemoryVault is idle</div>
+                        <div id="memoryvault_dashboard_embedding_status" class="memoryvault-embedding-status loading">
+                            <i class="fa-solid fa-circle-notch fa-spin"></i>
+                            <span>Embeddings not loaded</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="memoryvault-stats-grid">
+                    <div class="memoryvault-stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-database"></i></div>
+                        <div class="stat-value" id="memoryvault_stat_events">0</div>
+                        <div class="stat-label">Memories</div>
+                    </div>
+                    <div class="memoryvault-stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                        <div class="stat-value" id="memoryvault_stat_characters">0</div>
+                        <div class="stat-label">Characters</div>
+                    </div>
+                    <div class="memoryvault-stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-vector-square"></i></div>
+                        <div class="stat-value" id="memoryvault_stat_embeddings">0</div>
+                        <div class="stat-label">Embeddings</div>
+                    </div>
+                </div>
+
+                <!-- Batch Progress -->
+                <div class="memoryvault-card">
+                    <div class="memoryvault-card-header">
+                        <span class="memoryvault-card-title"><i class="fa-solid fa-bars-progress"></i> Extraction Progress</span>
+                    </div>
+                    <div class="memoryvault-batch-progress">
+                        <div class="memoryvault-batch-progress-bar">
+                            <div class="memoryvault-batch-progress-fill" id="memoryvault_batch_progress_fill"></div>
+                        </div>
+                        <span class="memoryvault-batch-progress-label" id="memoryvault_batch_progress_label">No chat</span>
+                    </div>
+                    <div class="memoryvault-button-row">
+                        <button id="memoryvault_extract_all_btn" class="menu_button">
+                            <i class="fa-solid fa-layer-group"></i> Backfill History
+                        </button>
+                        <button id="memoryvault_backfill_embeddings_btn" class="menu_button">
+                            <i class="fa-solid fa-vector-square"></i> Generate Embeddings
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Toggles -->
+                <div class="memoryvault-card">
+                    <div class="memoryvault-card-header">
+                        <span class="memoryvault-card-title"><i class="fa-solid fa-toggle-on"></i> Quick Toggles</span>
+                    </div>
+                    <div class="memoryvault-quick-toggles">
+                        <label class="memoryvault-quick-toggle">
+                            <input type="checkbox" id="memoryvault_enabled" checked />
+                            <span>Enable MemoryVault</span>
+                        </label>
+                        <label class="memoryvault-quick-toggle">
+                            <input type="checkbox" id="memoryvault_auto_hide" checked />
+                            <span>Auto-hide Messages</span>
+                        </label>
+                        <label class="memoryvault-quick-toggle">
+                            <input type="checkbox" id="memoryvault_branch_pruning" checked />
+                            <span>Branch-Aware Pruning</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================================================================
+                 TAB 2: MEMORY BANK
+                 ================================================================ -->
+            <div class="memoryvault-tab-content" data-tab="memory-bank">
+                <!-- Search -->
+                <div class="memoryvault-search-container">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="memoryvault_memory_search" class="memoryvault-search-input" placeholder="Search memories..." />
+                </div>
+
+                <!-- Filters -->
+                <div class="memoryvault-filters">
+                    <select id="memoryvault_filter_type" class="text_pole">
+                        <option value="">All Types</option>
+                        <option value="action">Actions</option>
+                        <option value="revelation">Revelations</option>
+                        <option value="emotion_shift">Emotion Shifts</option>
+                        <option value="relationship_change">Relationship Changes</option>
+                    </select>
+                    <select id="memoryvault_filter_character" class="text_pole">
+                        <option value="">All Characters</option>
+                    </select>
+                </div>
+
+                <!-- Memory List -->
+                <div id="memoryvault_memory_list" class="memoryvault-memory-list">
+                    <p class="memoryvault-placeholder">No memories yet</p>
+                </div>
+
+                <!-- Pagination -->
+                <div class="memoryvault-pagination">
+                    <button id="memoryvault_prev_page" class="menu_button" disabled>
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <span id="memoryvault_page_info">Page 1</span>
+                    <button id="memoryvault_next_page" class="menu_button" disabled>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <!-- Character States (collapsed) -->
+                <div class="inline-drawer" style="margin-top: 15px;">
+                    <div class="inline-drawer-toggle inline-drawer-header">
+                        <span>Character States</span>
+                        <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+                    </div>
+                    <div class="inline-drawer-content">
+                        <div id="memoryvault_character_states" class="memoryvault-character-list">
+                            <p class="memoryvault-placeholder">No character data yet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Relationships (collapsed) -->
+                <div class="inline-drawer">
+                    <div class="inline-drawer-toggle inline-drawer-header">
+                        <span>Relationships</span>
+                        <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+                    </div>
+                    <div class="inline-drawer-content">
+                        <div id="memoryvault_relationships" class="memoryvault-relationship-list">
+                            <p class="memoryvault-placeholder">No relationship data yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================================================================
+                 TAB 3: CONFIGURATION
+                 ================================================================ -->
+            <div class="memoryvault-tab-content" data-tab="configuration">
+                <!-- LLM Strategy Group -->
+                <div class="memoryvault-settings-group">
+                    <div class="memoryvault-settings-group-header">
+                        <i class="fa-solid fa-brain"></i>
+                        <span>LLM Strategy</span>
+                    </div>
+
+                    <label for="memoryvault_extraction_profile">Extraction Profile</label>
+                    <select id="memoryvault_extraction_profile" class="text_pole">
+                        <option value="">Use current connection</option>
+                    </select>
+                    <small class="memoryvault-hint">LLM profile for memory extraction</small>
+
+                    <label class="checkbox_label" style="margin-top: 10px;">
+                        <input type="checkbox" id="memoryvault_smart_retrieval" checked />
+                        <span>Smart Retrieval (LLM-assisted)</span>
+                    </label>
+                    <small class="memoryvault-hint">Use LLM to select most relevant memories</small>
+
+                    <div id="memoryvault_retrieval_profile_group" style="margin-top: 8px;">
+                        <label for="memoryvault_retrieval_profile">Retrieval Profile</label>
+                        <select id="memoryvault_retrieval_profile" class="text_pole">
+                            <option value="">Use current connection</option>
+                        </select>
+                        <small class="memoryvault-hint">Can use a faster/cheaper model</small>
+                    </div>
+                </div>
+
+                <!-- Embedding Settings Group -->
+                <div class="memoryvault-settings-group">
+                    <div class="memoryvault-settings-group-header">
+                        <i class="fa-solid fa-vector-square"></i>
+                        <span>Embeddings</span>
+                    </div>
+
+                    <label for="memoryvault_embedding_source">Embedding Model</label>
+                    <select id="memoryvault_embedding_source" class="text_pole">
+                        <optgroup label="Multilingual">
+                            <option value="multilingual-e5-small">multilingual-e5-small - 384d · 118M · 100+ langs · MTEB: 55.8</option>
+                            <option value="embeddinggemma-300m">embeddinggemma-300m - 768d · 300M · 100+ langs · MTEB: 61.2 (WebGPU)</option>
+                        </optgroup>
+                        <optgroup label="English Only">
+                            <option value="bge-small-en-v1.5">bge-small-en-v1.5 - 384d · 133MB · MTEB: 62.17 · SOTA RAG</option>
+                        </optgroup>
+                        <optgroup label="External">
+                            <option value="ollama">Ollama (Custom server)</option>
+                        </optgroup>
+                    </select>
+
+                    <!-- Embedding Status -->
+                    <div id="memoryvault_embedding_status_container">
+                        <div id="memoryvault_embedding_status" class="memoryvault-embedding-status loading">
+                            <i class="fa-solid fa-circle-notch fa-spin"></i>
+                            <span>Not loaded</span>
+                        </div>
+                    </div>
+
+                    <!-- Ollama Settings (hidden by default) -->
+                    <div id="memoryvault_ollama_settings" style="display: none; margin-top: 10px;">
+                        <label for="memoryvault_ollama_url">
+                            Ollama URL
+                            <button id="memoryvault_test_ollama_btn" class="menu_button memoryvault-test-btn">
+                                <i class="fa-solid fa-plug"></i> Test
+                            </button>
+                        </label>
+                        <input type="text" id="memoryvault_ollama_url" class="text_pole" placeholder="http://localhost:11434" />
+                        <small class="memoryvault-hint"><strong>CORS required:</strong> Set <code>OLLAMA_ORIGINS=*</code></small>
+
+                        <label for="memoryvault_embedding_model">Model Name</label>
+                        <input type="text" id="memoryvault_embedding_model" class="text_pole" placeholder="nomic-embed-text" />
+                    </div>
+
+                    <!-- WebGPU Help -->
+                    <details class="memoryvault-details">
+                        <summary><i class="fa-solid fa-bolt"></i> Enable WebGPU (optional)</summary>
+                        <div class="memoryvault-help-content">
+                            <p>WebGPU requires <strong>secure context</strong> (HTTPS or localhost). For HTTP:</p>
+                            <ol>
+                                <li>Go to <code>chrome://flags</code></li>
+                                <li>Enable <code>#enable-unsafe-webgpu</code></li>
+                                <li>Enable <code>#enable-webgpu-developer-features</code></li>
+                                <li>In <code>#unsafely-treat-insecure-origin-as-secure</code> add your SillyTavern URL</li>
+                                <li>Restart browser</li>
+                            </ol>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Pipeline Tuning Group -->
+                <div class="memoryvault-settings-group">
+                    <div class="memoryvault-settings-group-header">
+                        <i class="fa-solid fa-gears"></i>
+                        <span>Pipeline Tuning</span>
+                    </div>
+
+                    <label for="memoryvault_messages_per_extraction">
+                        Messages per Extraction: <span id="memoryvault_messages_per_extraction_value">10</span>
+                        <small style="opacity: 0.6;"> (default: 10)</small>
+                    </label>
+                    <input type="range" id="memoryvault_messages_per_extraction" min="10" max="50" step="5" value="10" />
+
+                    <div style="height: 8px;"></div>
+
+                    <label for="memoryvault_final_budget">
+                        Final Context Budget: <span id="memoryvault_final_budget_value">12000</span> tokens
+                        <small style="opacity: 0.6;"> (default: 12000)</small>
+                        <small class="memoryvault-words-hint">~<span id="memoryvault_final_budget_words">9000</span> words</small>
+                    </label>
+                    <input type="range" id="memoryvault_final_budget" min="1000" max="32000" step="1000" value="12000" />
+                    <small class="memoryvault-hint">Memory budget injected into chat context</small>
+
+                    <div style="height: 8px;"></div>
+
+                    <label for="memoryvault_auto_hide_threshold">
+                        Messages to keep visible: <span id="memoryvault_auto_hide_threshold_value">50</span>
+                        <small style="opacity: 0.6;"> (default: 50)</small>
+                    </label>
+                    <input type="range" id="memoryvault_auto_hide_threshold" min="10" max="200" step="2" value="50" />
+
+                    <!-- Advanced Parameters (collapsed) -->
+                    <details class="memoryvault-advanced-toggle">
+                        <summary><i class="fa-solid fa-sliders"></i> Advanced Parameters</summary>
+                        <div class="memoryvault-advanced-content">
+                            <!-- Scoring & Weights -->
+                            <div style="margin-bottom: 15px;">
+                                <div style="font-weight: bold; margin-bottom: 10px; color: var(--SmartThemeQuoteColor);">
+                                    <i class="fa-solid fa-scale-balanced"></i> Scoring & Weights
+                                </div>
+                                <small style="display: block; margin-bottom: 10px; color: var(--SmartThemeQuoteColor);">
+                                    Balance how memories are ranked during retrieval. Higher values = more influence.
+                                </small>
+
+                                <label for="memoryvault_vector_weight">
+                                    Semantic Match Weight: <span id="memoryvault_vector_weight_value">15</span>
+                                    <small style="opacity: 0.6;"> (default: 15)</small>
+                                </label>
+                                <input type="range" id="memoryvault_vector_weight" min="0" max="30" step="1" value="15" />
+                                <small class="memoryvault-hint">Finds "vibes" (e.g., "Canine" → "Dog"). High = intuitive but loose</small>
+
+                                <div style="height: 8px;"></div>
+
+                                <label for="memoryvault_keyword_weight" style="margin-top: 10px;">
+                                    Keyword Match Weight: <span id="memoryvault_keyword_weight_value">1.0</span>
+                                    <small style="opacity: 0.6;"> (default: 1.0)</small>
+                                </label>
+                                <input type="range" id="memoryvault_keyword_weight" min="0" max="3" step="0.1" value="1.0" />
+                                <small class="memoryvault-hint">Finds exact matches (e.g., "Project Chimera"). High = precise but rigid</small>
+
+                                <div style="height: 8px;"></div>
+
+                                <label for="memoryvault_vector_threshold" style="margin-top: 10px;">
+                                    Semantic Threshold: <span id="memoryvault_vector_threshold_value">0.5</span>
+                                    <small style="opacity: 0.6;"> (default: 0.5)</small>
+                                </label>
+                                <input type="range" id="memoryvault_vector_threshold" min="0" max="1" step="0.05" value="0.5" />
+                                <small class="memoryvault-hint">Noise filter. 0.7+ = strict (only close matches), 0.3- = loose</small>
+                            </div>
+
+                            <hr style="margin: 15px 0; border: none; border-top: 1px solid var(--SmartThemeShadowColor);">
+                            <label for="memoryvault_extraction_rearview">
+                                Context Window Size: <span id="memoryvault_extraction_rearview_value">12000</span> tokens
+                                <small style="opacity: 0.6;"> (default: 12000)</small>
+                                <small class="memoryvault-words-hint">~<span id="memoryvault_extraction_rearview_words">9000</span> words</small>
+                            </label>
+                            <input type="range" id="memoryvault_extraction_rearview" min="1000" max="32000" step="1000" value="12000" />
+                            <small class="memoryvault-hint">How much past memories the LLM sees when writing new memories</small>
+
+                            <div style="height: 8px;"></div>
+
+                            <label for="memoryvault_prefilter_budget" style="margin-top: 10px;">
+                                Pre-filter Budget: <span id="memoryvault_prefilter_budget_value">24000</span> tokens
+                                <small style="opacity: 0.6;"> (default: 24000)</small>
+                                <small class="memoryvault-words-hint">~<span id="memoryvault_prefilter_budget_words">18000</span> words</small>
+                            </label>
+                            <input type="range" id="memoryvault_prefilter_budget" min="1000" max="32000" step="1000" value="24000" />
+                            <small class="memoryvault-hint">Algorithmic filter (recency + vector similarity)</small>
+
+                            <div style="height: 8px;"></div>
+
+                            <label for="memoryvault_backfill_rpm" style="margin-top: 10px;">Backfill Rate Limit (RPM) <small style="opacity: 0.6;"> (default: 30)</small></label>
+                            <input type="number" id="memoryvault_backfill_rpm" class="text_pole" min="1" max="600" value="30" />
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- ================================================================
+                 TAB 4: SYSTEM
+                 ================================================================ -->
+            <div class="memoryvault-tab-content" data-tab="system">
+                <!-- Debug Settings -->
+                <div class="memoryvault-card">
+                    <div class="memoryvault-card-header">
+                        <span class="memoryvault-card-title"><i class="fa-solid fa-bug"></i> Debug</span>
+                    </div>
+                    <label class="checkbox_label">
+                        <input type="checkbox" id="memoryvault_debug" />
+                        <span>Debug Mode</span>
+                    </label>
+                    <small class="memoryvault-hint">Enable verbose logging to console</small>
+                    <button id="memoryvault_copy_weights_btn" class="menu_button" style="margin-top: 10px;">
+                        <i class="fa-solid fa-copy"></i> Copy Memory Weights
+                    </button>
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="memoryvault-card memoryvault-danger">
+                    <div class="memoryvault-card-header">
+                        <span class="memoryvault-card-title" style="color: var(--error-color, #c44);">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Danger Zone
+                        </span>
+                    </div>
+                    <p style="font-size: 0.85em; color: var(--SmartThemeEmColor, #888); margin-bottom: 10px;">
+                        These actions cannot be undone.
+                    </p>
+                    <button id="memoryvault_delete_chat_btn" class="menu_button danger wide">
+                        <i class="fa-solid fa-trash"></i> Delete Current Chat Memories
+                    </button>
+                    <button id="memoryvault_delete_embeddings_btn" class="menu_button danger wide" style="margin-top: 8px;">
+                        <i class="fa-solid fa-eraser"></i> Delete Current Chat Embeddings
+                    </button>
+                </div>
+
+                <!-- Footer -->
+                <div class="memoryvault-footer">
+                    <small>MemoryVault v<span id="memoryvault_version"></span> - Branch-Aware Agentic Memory</small>
+                </div>
+            </div>
+
+            <!-- Hidden legacy elements for backward compatibility -->
+            <span id="memoryvault_stat_events_badge" style="display: none;">0 events</span>
+            <span id="memoryvault_stat_embeddings_badge" style="display: none;">0 embeddings</span>
+            <span id="memoryvault_stat_characters_badge" style="display: none;">0 chars</span>
+        </div>
+    </div>
+</div>
