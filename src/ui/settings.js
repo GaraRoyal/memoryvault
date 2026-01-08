@@ -10,7 +10,7 @@ import { refreshAllUI, prevPage, nextPage, resetAndRender, initBrowser } from '.
 import { validateRPM } from './calculations.js';
 import { setEmbeddingStatusCallback, getEmbeddingStatus, getEmbedding, isEmbeddingsEnabled } from '../embeddings.js';
 import { updateEmbeddingStatusDisplay } from './status.js';
-import { getmemoryvaultData, showToast } from '../utils.js';
+import { getOpenVaultData, showToast } from '../utils.js';
 import { scoreMemories } from '../retrieval/math.js';
 import { getScoringParams } from '../retrieval/scoring.js';
 
@@ -346,7 +346,7 @@ async function copyMemoryWeights() {
     $btn.html('<i class="fa-solid fa-spinner fa-spin"></i> Calculating...');
 
     try {
-        const data = getmemoryvaultData();
+        const data = getOpenVaultData();
         if (!data || !data[MEMORIES_KEY] || data[MEMORIES_KEY].length === 0) {
             showToast('warning', 'No memories to score');
             $btn.html('<i class="fa-solid fa-copy"></i> Copy Memory Weights');
