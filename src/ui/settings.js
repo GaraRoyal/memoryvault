@@ -248,9 +248,14 @@ function bindUIElements() {
     // Backfill settings
     bindNumberInput('memoryvault_backfill_rpm', 'backfillMaxRPM', (v) => validateRPM(v, 30));
 
-    // Embedding settings
+    // Embedding settings - update status display when Ollama settings change
     bindTextInput('memoryvault_ollama_url', 'ollamaUrl', (v) => v.trim());
     bindTextInput('memoryvault_embedding_model', 'embeddingModel', (v) => v.trim());
+
+    // Refresh embedding status when URL or model changes
+    $('#memoryvault_ollama_url, #memoryvault_embedding_model').on('change', () => {
+        updateEmbeddingStatusDisplay(getEmbeddingStatus());
+    });
 
     bindSelect('memoryvault_embedding_source', 'embeddingSource', (value) => {
         $('#memoryvault_ollama_settings').toggle(value === 'ollama');
