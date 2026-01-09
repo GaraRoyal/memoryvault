@@ -33,15 +33,15 @@ const STATUS_SUBTEXT = {
  */
 export function setStatus(status) {
     // Update legacy status badge
-    const $indicator = $('#openvault_status');
+    const $indicator = $('#memoryvault_status');
     $indicator.removeClass('ready extracting retrieving error');
     $indicator.addClass(status);
     $indicator.text(getStatusText(status));
 
     // Update dashboard status card
-    const $statusIndicator = $('#openvault_status_indicator');
-    const $statusText = $('#openvault_status_text');
-    const $statusSubtext = $('#openvault_status_subtext');
+    const $statusIndicator = $('#memoryvault_status_indicator');
+    const $statusText = $('#memoryvault_status_text');
+    const $statusSubtext = $('#memoryvault_status_subtext');
 
     $statusIndicator.removeClass('ready extracting retrieving error');
     $statusIndicator.addClass(status);
@@ -52,7 +52,7 @@ export function setStatus(status) {
 
     // Toggle working class on main container for animations
     const isWorking = status === 'extracting' || status === 'retrieving';
-    $('#openvault_settings').toggleClass('working', isWorking);
+    $('#memoryvault_settings').toggleClass('working', isWorking);
 }
 
 /**
@@ -60,7 +60,7 @@ export function setStatus(status) {
  * @param {string} statusText - Status text to display
  */
 export function updateEmbeddingStatusDisplay(statusText) {
-    const $containers = $('#openvault_embedding_status, #openvault_dashboard_embedding_status');
+    const $containers = $('#memoryvault_embedding_status, #memoryvault_dashboard_embedding_status');
     const lowerStatus = statusText.toLowerCase();
 
     // Determine status type from text
@@ -93,16 +93,16 @@ export function refreshStats() {
     const data = getOpenVaultData();
     if (!data) {
         // Update new stat cards
-        $('#openvault_stat_events').text('0');
-        $('#openvault_stat_embeddings').text('0');
-        $('#openvault_stat_characters').text('0');
+        $('#memoryvault_stat_events').text('0');
+        $('#memoryvault_stat_embeddings').text('0');
+        $('#memoryvault_stat_characters').text('0');
         // Update legacy badges
-        $('#openvault_stat_events_badge').text('0 events');
-        $('#openvault_stat_embeddings_badge').text('0 embeddings');
-        $('#openvault_stat_characters_badge').text('0 chars');
+        $('#memoryvault_stat_events_badge').text('0 events');
+        $('#memoryvault_stat_embeddings_badge').text('0 embeddings');
+        $('#memoryvault_stat_characters_badge').text('0 chars');
         // Update progress
-        $('#openvault_batch_progress_fill').css('width', '0%');
-        $('#openvault_batch_progress_label').text('No chat');
+        $('#memoryvault_batch_progress_fill').css('width', '0%');
+        $('#memoryvault_batch_progress_label').text('No chat');
         return;
     }
 
@@ -112,14 +112,14 @@ export function refreshStats() {
     const charCount = Object.keys(data[CHARACTERS_KEY] || {}).length;
 
     // Update new stat cards
-    $('#openvault_stat_events').text(eventCount);
-    $('#openvault_stat_embeddings').text(embeddingCount);
-    $('#openvault_stat_characters').text(charCount);
+    $('#memoryvault_stat_events').text(eventCount);
+    $('#memoryvault_stat_embeddings').text(embeddingCount);
+    $('#memoryvault_stat_characters').text(charCount);
 
     // Update legacy badges
-    $('#openvault_stat_events_badge').text(`${eventCount} events`);
-    $('#openvault_stat_embeddings_badge').text(`${embeddingCount} embeddings`);
-    $('#openvault_stat_characters_badge').text(`${charCount} chars`);
+    $('#memoryvault_stat_events_badge').text(`${eventCount} events`);
+    $('#memoryvault_stat_embeddings_badge').text(`${embeddingCount} embeddings`);
+    $('#memoryvault_stat_characters_badge').text(`${charCount} chars`);
 
     // Calculate batch progress
     const settings = getDeps().getExtensionSettings()[extensionName];
@@ -134,8 +134,8 @@ export function refreshStats() {
     const progressInfo = getBatchProgressInfo(stats);
 
     // Update batch progress bar
-    $('#openvault_batch_progress_fill').css('width', `${progressInfo.percentage}%`);
-    $('#openvault_batch_progress_label').text(progressInfo.label);
+    $('#memoryvault_batch_progress_fill').css('width', `${progressInfo.percentage}%`);
+    $('#memoryvault_batch_progress_label').text(progressInfo.label);
 
     log(`Stats: ${eventCount} memories, ${embeddingCount} embeddings, ${charCount} characters`);
 }

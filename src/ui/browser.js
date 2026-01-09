@@ -73,33 +73,33 @@ function renderMemoryItemTemplate(memory) {
 
     // Pinned badge comes first
     if (isPinned) {
-        badges.push(`<span class="openvault-memory-card-badge pinned" title="Pinned - always included in context"><i class="fa-solid fa-thumbtack"></i></span>`);
+        badges.push(`<span class="memoryvault-memory-card-badge pinned" title="Pinned - always included in context"><i class="fa-solid fa-thumbtack"></i></span>`);
     }
 
-    badges.push(`<span class="openvault-memory-card-badge importance">${stars}</span>`);
+    badges.push(`<span class="memoryvault-memory-card-badge importance">${stars}</span>`);
     if (needsEmbed) {
-        badges.push(`<span class="openvault-memory-card-badge pending-embed" title="Embedding pending"><i class="fa-solid fa-rotate-right"></i></span>`);
+        badges.push(`<span class="memoryvault-memory-card-badge pending-embed" title="Embedding pending"><i class="fa-solid fa-rotate-right"></i></span>`);
     }
     if (witnessText) {
-        badges.push(`<span class="openvault-memory-card-badge witness"><i class="fa-solid fa-eye"></i> ${escapeHtml(witnessText)}</span>`);
+        badges.push(`<span class="memoryvault-memory-card-badge witness"><i class="fa-solid fa-eye"></i> ${escapeHtml(witnessText)}</span>`);
     }
     if (location) {
-        badges.push(`<span class="openvault-memory-card-badge location"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(location)}</span>`);
+        badges.push(`<span class="memoryvault-memory-card-badge location"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(location)}</span>`);
     }
 
     // Emotional valence indicator
     const valence = memory.emotional_valence || 0;
     const valenceClass = getValenceClass(valence);
-    badges.push(`<span class="openvault-memory-card-badge valence ${valenceClass}" title="Emotional valence: ${valence.toFixed(1)}"><i class="fa-solid fa-heart-pulse"></i></span>`);
+    badges.push(`<span class="memoryvault-memory-card-badge valence ${valenceClass}" title="Emotional valence: ${valence.toFixed(1)}"><i class="fa-solid fa-heart-pulse"></i></span>`);
 
     // Build character tags
     const characters = (memory.characters_involved || [])
-        .map(c => `<span class="openvault-character-tag">${escapeHtml(c)}</span>`)
+        .map(c => `<span class="memoryvault-character-tag">${escapeHtml(c)}</span>`)
         .join('');
 
     // Build emotional tone tags
     const emotionalTones = (memory.emotional_tone || [])
-        .map(tone => `<span class="openvault-emotion-tag">${escapeHtml(tone)}</span>`)
+        .map(tone => `<span class="memoryvault-emotion-tag">${escapeHtml(tone)}</span>`)
         .join('');
 
     const pinnedClass = isPinned ? ' pinned' : '';
@@ -107,35 +107,35 @@ function renderMemoryItemTemplate(memory) {
     const pinTitle = isPinned ? 'Unpin memory' : 'Pin memory (always include in context)';
 
     return `
-        <div class="openvault-memory-card ${typeClass}${pinnedClass}" data-id="${escapeHtml(memory.id)}">
-            <div class="openvault-memory-card-header">
-                <div class="openvault-memory-card-icon ${typeClass}">
+        <div class="memoryvault-memory-card ${typeClass}${pinnedClass}" data-id="${escapeHtml(memory.id)}">
+            <div class="memoryvault-memory-card-header">
+                <div class="memoryvault-memory-card-icon ${typeClass}">
                     <i class="${iconClass}"></i>
                 </div>
-                <div class="openvault-memory-card-meta">
-                    <span class="openvault-memory-card-type">${escapeHtml(memory.event_type || 'event')}</span>
-                    <span class="openvault-memory-card-date">${escapeHtml(date)}</span>
+                <div class="memoryvault-memory-card-meta">
+                    <span class="memoryvault-memory-card-type">${escapeHtml(memory.event_type || 'event')}</span>
+                    <span class="memoryvault-memory-card-date">${escapeHtml(date)}</span>
                 </div>
             </div>
-            <div class="openvault-memory-card-summary">${escapeHtml(memory.summary || 'No summary')}</div>
-            ${emotionalTones ? `<div class="openvault-memory-emotions">${emotionalTones}</div>` : ''}
-            <div class="openvault-memory-card-footer">
-                <div class="openvault-memory-card-badges">
+            <div class="memoryvault-memory-card-summary">${escapeHtml(memory.summary || 'No summary')}</div>
+            ${emotionalTones ? `<div class="memoryvault-memory-emotions">${emotionalTones}</div>` : ''}
+            <div class="memoryvault-memory-card-footer">
+                <div class="memoryvault-memory-card-badges">
                     ${badges.join('')}
                 </div>
                 <div>
-                    <button class="menu_button openvault-pin-memory${isPinned ? ' pinned' : ''}" data-id="${escapeHtml(memory.id)}" title="${pinTitle}">
+                    <button class="menu_button memoryvault-pin-memory${isPinned ? ' pinned' : ''}" data-id="${escapeHtml(memory.id)}" title="${pinTitle}">
                         <i class="${pinIcon}"></i>
                     </button>
-                    <button class="menu_button openvault-edit-memory" data-id="${escapeHtml(memory.id)}" title="Edit memory">
+                    <button class="menu_button memoryvault-edit-memory" data-id="${escapeHtml(memory.id)}" title="Edit memory">
                         <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button class="menu_button openvault-delete-memory" data-id="${escapeHtml(memory.id)}" title="Delete memory">
+                    <button class="menu_button memoryvault-delete-memory" data-id="${escapeHtml(memory.id)}" title="Delete memory">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
             </div>
-            ${characters ? `<div class="openvault-memory-characters" style="margin-top: 8px;">${characters}</div>` : ''}
+            ${characters ? `<div class="memoryvault-memory-characters" style="margin-top: 8px;">${characters}</div>` : ''}
         </div>
     `;
 }
@@ -162,10 +162,10 @@ function renderMemoryEditTemplate(memory) {
         .join('');
 
     return `
-        <div class="openvault-memory-card ${typeClass}" data-id="${escapeHtml(memory.id)}">
-            <div class="openvault-edit-form">
-                <textarea class="openvault-edit-textarea" data-field="summary">${escapeHtml(memory.summary || '')}</textarea>
-                <div class="openvault-edit-row">
+        <div class="memoryvault-memory-card ${typeClass}" data-id="${escapeHtml(memory.id)}">
+            <div class="memoryvault-edit-form">
+                <textarea class="memoryvault-edit-textarea" data-field="summary">${escapeHtml(memory.summary || '')}</textarea>
+                <div class="memoryvault-edit-row">
                     <label>
                         Importance
                         <select data-field="importance">${importanceOptions}</select>
@@ -175,11 +175,11 @@ function renderMemoryEditTemplate(memory) {
                         <select data-field="event_type">${typeOptions}</select>
                     </label>
                 </div>
-                <div class="openvault-edit-actions">
-                    <button class="menu_button openvault-cancel-edit" data-id="${escapeHtml(memory.id)}">
+                <div class="memoryvault-edit-actions">
+                    <button class="menu_button memoryvault-cancel-edit" data-id="${escapeHtml(memory.id)}">
                         <i class="fa-solid fa-times"></i> Cancel
                     </button>
-                    <button class="menu_button openvault-save-edit" data-id="${escapeHtml(memory.id)}">
+                    <button class="menu_button memoryvault-save-edit" data-id="${escapeHtml(memory.id)}">
                         <i class="fa-solid fa-check"></i> Save
                     </button>
                 </div>
@@ -195,15 +195,15 @@ function renderMemoryEditTemplate(memory) {
  */
 function renderCharacterStateTemplate(charData) {
     return `
-        <div class="openvault-character-item">
-            <div class="openvault-character-name">${escapeHtml(charData.name)}</div>
-            <div class="openvault-emotion">
-                <span class="openvault-emotion-label">${escapeHtml(charData.emotion)}${charData.emotionSource || ''}</span>
-                <div class="openvault-emotion-bar">
-                    <div class="openvault-emotion-fill" style="width: ${charData.intensityPercent}%"></div>
+        <div class="memoryvault-character-item">
+            <div class="memoryvault-character-name">${escapeHtml(charData.name)}</div>
+            <div class="memoryvault-emotion">
+                <span class="memoryvault-emotion-label">${escapeHtml(charData.emotion)}${charData.emotionSource || ''}</span>
+                <div class="memoryvault-emotion-bar">
+                    <div class="memoryvault-emotion-fill" style="width: ${charData.intensityPercent}%"></div>
                 </div>
             </div>
-            <div class="openvault-memory-witnesses">Known events: ${charData.knownCount}</div>
+            <div class="memoryvault-memory-witnesses">Known events: ${charData.knownCount}</div>
         </div>
     `;
 }
@@ -216,58 +216,58 @@ function renderCharacterStateTemplate(charData) {
  */
 function renderRelationshipTemplate(relData) {
     return `
-        <div class="openvault-relationship-item">
-            <div class="openvault-relationship-pair">${escapeHtml(relData.characterA)} \u2194 ${escapeHtml(relData.characterB)}</div>
-            <div class="openvault-relationship-type">${escapeHtml(relData.type)}</div>
-            <div class="openvault-relationship-bars">
-                <div class="openvault-bar-row">
-                    <span class="openvault-bar-label">Trust</span>
-                    <div class="openvault-bar-container">
-                        <div class="openvault-bar-fill trust" style="width: ${relData.trustPercent}%"></div>
+        <div class="memoryvault-relationship-item">
+            <div class="memoryvault-relationship-pair">${escapeHtml(relData.characterA)} \u2194 ${escapeHtml(relData.characterB)}</div>
+            <div class="memoryvault-relationship-type">${escapeHtml(relData.type)}</div>
+            <div class="memoryvault-relationship-bars">
+                <div class="memoryvault-bar-row">
+                    <span class="memoryvault-bar-label">Trust</span>
+                    <div class="memoryvault-bar-container">
+                        <div class="memoryvault-bar-fill trust" style="width: ${relData.trustPercent}%"></div>
                     </div>
-                    <span class="openvault-bar-value">${relData.trust}</span>
+                    <span class="memoryvault-bar-value">${relData.trust}</span>
                 </div>
-                <div class="openvault-bar-row">
-                    <span class="openvault-bar-label">Tension</span>
-                    <div class="openvault-bar-container">
-                        <div class="openvault-bar-fill tension" style="width: ${relData.tensionPercent}%"></div>
+                <div class="memoryvault-bar-row">
+                    <span class="memoryvault-bar-label">Tension</span>
+                    <div class="memoryvault-bar-container">
+                        <div class="memoryvault-bar-fill tension" style="width: ${relData.tensionPercent}%"></div>
                     </div>
-                    <span class="openvault-bar-value">${relData.tension}</span>
+                    <span class="memoryvault-bar-value">${relData.tension}</span>
                 </div>
-                <div class="openvault-bar-row">
-                    <span class="openvault-bar-label">Respect</span>
-                    <div class="openvault-bar-container">
-                        <div class="openvault-bar-fill respect" style="width: ${relData.respectPercent}%"></div>
+                <div class="memoryvault-bar-row">
+                    <span class="memoryvault-bar-label">Respect</span>
+                    <div class="memoryvault-bar-container">
+                        <div class="memoryvault-bar-fill respect" style="width: ${relData.respectPercent}%"></div>
                     </div>
-                    <span class="openvault-bar-value">${relData.respect}</span>
+                    <span class="memoryvault-bar-value">${relData.respect}</span>
                 </div>
-                <div class="openvault-bar-row">
-                    <span class="openvault-bar-label">Attraction</span>
-                    <div class="openvault-bar-container">
-                        <div class="openvault-bar-fill attraction" style="width: ${relData.attractionPercent}%"></div>
+                <div class="memoryvault-bar-row">
+                    <span class="memoryvault-bar-label">Attraction</span>
+                    <div class="memoryvault-bar-container">
+                        <div class="memoryvault-bar-fill attraction" style="width: ${relData.attractionPercent}%"></div>
                     </div>
-                    <span class="openvault-bar-value">${relData.attraction}</span>
+                    <span class="memoryvault-bar-value">${relData.attraction}</span>
                 </div>
-                <div class="openvault-bar-row">
-                    <span class="openvault-bar-label">Fear</span>
-                    <div class="openvault-bar-container">
-                        <div class="openvault-bar-fill fear" style="width: ${relData.fearPercent}%"></div>
+                <div class="memoryvault-bar-row">
+                    <span class="memoryvault-bar-label">Fear</span>
+                    <div class="memoryvault-bar-container">
+                        <div class="memoryvault-bar-fill fear" style="width: ${relData.fearPercent}%"></div>
                     </div>
-                    <span class="openvault-bar-value">${relData.fear}</span>
+                    <span class="memoryvault-bar-value">${relData.fear}</span>
                 </div>
-                <div class="openvault-bar-row">
-                    <span class="openvault-bar-label">Loyalty</span>
-                    <div class="openvault-bar-container">
-                        <div class="openvault-bar-fill loyalty" style="width: ${relData.loyaltyPercent}%"></div>
+                <div class="memoryvault-bar-row">
+                    <span class="memoryvault-bar-label">Loyalty</span>
+                    <div class="memoryvault-bar-container">
+                        <div class="memoryvault-bar-fill loyalty" style="width: ${relData.loyaltyPercent}%"></div>
                     </div>
-                    <span class="openvault-bar-value">${relData.loyalty}</span>
+                    <span class="memoryvault-bar-value">${relData.loyalty}</span>
                 </div>
-                <div class="openvault-bar-row">
-                    <span class="openvault-bar-label">Familiarity</span>
-                    <div class="openvault-bar-container">
-                        <div class="openvault-bar-fill familiarity" style="width: ${relData.familiarityPercent}%"></div>
+                <div class="memoryvault-bar-row">
+                    <span class="memoryvault-bar-label">Familiarity</span>
+                    <div class="memoryvault-bar-container">
+                        <div class="memoryvault-bar-fill familiarity" style="width: ${relData.familiarityPercent}%"></div>
                     </div>
-                    <span class="openvault-bar-value">${relData.familiarity}</span>
+                    <span class="memoryvault-bar-value">${relData.familiarity}</span>
                 </div>
             </div>
         </div>
@@ -283,16 +283,16 @@ function renderRelationshipTemplate(relData) {
  * Call once after HTML is loaded.
  */
 export function initBrowser() {
-    const $list = $('#openvault_memory_list');
+    const $list = $('#memoryvault_memory_list');
 
     // Event delegation: attach once to container, not per-render to children
-    $list.on('click', '.openvault-delete-memory', async function() {
+    $list.on('click', '.memoryvault-delete-memory', async function() {
         const id = $(this).data('id');
         await deleteMemory(id);
     });
 
     // Pin button - toggle pinned status
-    $list.on('click', '.openvault-pin-memory', async function() {
+    $list.on('click', '.memoryvault-pin-memory', async function() {
         const id = $(this).data('id');
         const $btn = $(this);
         $btn.prop('disabled', true);
@@ -302,7 +302,7 @@ export function initBrowser() {
             // Re-render the card with updated pin state
             const memory = getMemoryById(id);
             if (memory) {
-                const $card = $btn.closest('.openvault-memory-card');
+                const $card = $btn.closest('.memoryvault-memory-card');
                 $card.replaceWith(renderMemoryItemTemplate(memory));
             }
             const status = memory?.pinned ? 'Pinned' : 'Unpinned';
@@ -312,29 +312,29 @@ export function initBrowser() {
     });
 
     // Edit button - swap to edit mode
-    $list.on('click', '.openvault-edit-memory', function() {
+    $list.on('click', '.memoryvault-edit-memory', function() {
         const id = $(this).data('id');
         const memory = getMemoryById(id);
         if (memory) {
-            const $card = $(this).closest('.openvault-memory-card');
+            const $card = $(this).closest('.memoryvault-memory-card');
             $card.replaceWith(renderMemoryEditTemplate(memory));
         }
     });
 
     // Cancel edit - restore view mode
-    $list.on('click', '.openvault-cancel-edit', function() {
+    $list.on('click', '.memoryvault-cancel-edit', function() {
         const id = $(this).data('id');
         const memory = getMemoryById(id);
         if (memory) {
-            const $card = $(this).closest('.openvault-memory-card');
+            const $card = $(this).closest('.memoryvault-memory-card');
             $card.replaceWith(renderMemoryItemTemplate(memory));
         }
     });
 
     // Save edit - update memory and auto-embed
-    $list.on('click', '.openvault-save-edit', async function() {
+    $list.on('click', '.memoryvault-save-edit', async function() {
         const id = $(this).data('id');
-        const $card = $(this).closest('.openvault-memory-card');
+        const $card = $(this).closest('.memoryvault-memory-card');
         const $btn = $(this);
 
         // Gather values
@@ -375,7 +375,7 @@ export function initBrowser() {
 
     // Search input handler with debounce
     let searchTimeout;
-    $('#openvault_memory_search').on('input', function() {
+    $('#memoryvault_memory_search').on('input', function() {
         clearTimeout(searchTimeout);
         const query = $(this).val();
         searchTimeout = setTimeout(() => {
@@ -491,20 +491,20 @@ function filterByValence(memories, valenceFilter) {
 export function renderMemoryBrowser() {
     const data = getOpenVaultData();
     if (!data) {
-        $('#openvault_memory_list').html('<p class="openvault-placeholder">No chat loaded</p>');
-        $('#openvault_page_info').text('Page 0 / 0');
+        $('#memoryvault_memory_list').html('<p class="memoryvault-placeholder">No chat loaded</p>');
+        $('#memoryvault_page_info').text('Page 0 / 0');
         return;
     }
 
     const memories = data[MEMORIES_KEY] || [];
-    const $list = $('#openvault_memory_list');
-    const $pageInfo = $('#openvault_page_info');
-    const $prevBtn = $('#openvault_prev_page');
-    const $nextBtn = $('#openvault_next_page');
+    const $list = $('#memoryvault_memory_list');
+    const $pageInfo = $('#memoryvault_page_info');
+    const $prevBtn = $('#memoryvault_prev_page');
+    const $nextBtn = $('#memoryvault_next_page');
 
     // Get filter values
-    const typeFilter = $('#openvault_filter_type').val();
-    const characterFilter = $('#openvault_filter_character').val();
+    const typeFilter = $('#memoryvault_filter_type').val();
+    const characterFilter = $('#memoryvault_filter_character').val();
     const emotionFilter = $('#memoryvault_filter_emotion').val();
     const valenceFilter = $('#memoryvault_filter_valence').val();
 
@@ -523,7 +523,7 @@ export function renderMemoryBrowser() {
     // Render memories using template
     if (pageMemories.length === 0) {
         const message = memorySearchQuery ? 'No memories match your search' : 'No memories yet';
-        $list.html(`<p class="openvault-placeholder">${message}</p>`);
+        $list.html(`<p class="memoryvault-placeholder">${message}</p>`);
     } else {
         const html = pageMemories.map(renderMemoryItemTemplate).join('');
         $list.html(html);
@@ -556,14 +556,14 @@ async function deleteMemory(id) {
 export function populateCharacterFilter() {
     const data = getOpenVaultData();
     if (!data) {
-        $('#openvault_filter_character').find('option:not(:first)').remove();
+        $('#memoryvault_filter_character').find('option:not(:first)').remove();
         return;
     }
 
     const memories = data[MEMORIES_KEY] || [];
     const characters = extractCharactersSet(memories);
 
-    const $filter = $('#openvault_filter_character');
+    const $filter = $('#memoryvault_filter_character');
     const currentValue = $filter.val();
     $filter.find('option:not(:first)').remove();
 
@@ -585,10 +585,10 @@ export function populateCharacterFilter() {
  */
 export function renderCharacterStates() {
     const data = getOpenVaultData();
-    const $container = $('#openvault_character_states');
+    const $container = $('#memoryvault_character_states');
 
     if (!data) {
-        $container.html('<p class="openvault-placeholder">No chat loaded</p>');
+        $container.html('<p class="memoryvault-placeholder">No chat loaded</p>');
         return;
     }
 
@@ -596,7 +596,7 @@ export function renderCharacterStates() {
     const charNames = Object.keys(characters);
 
     if (charNames.length === 0) {
-        $container.html('<p class="openvault-placeholder">No character data yet</p>');
+        $container.html('<p class="memoryvault-placeholder">No character data yet</p>');
         return;
     }
 
@@ -613,10 +613,10 @@ export function renderCharacterStates() {
  */
 export function renderRelationships() {
     const data = getOpenVaultData();
-    const $container = $('#openvault_relationships');
+    const $container = $('#memoryvault_relationships');
 
     if (!data) {
-        $container.html('<p class="openvault-placeholder">No chat loaded</p>');
+        $container.html('<p class="memoryvault-placeholder">No chat loaded</p>');
         return;
     }
 
@@ -624,7 +624,7 @@ export function renderRelationships() {
     const relKeys = Object.keys(relationships);
 
     if (relKeys.length === 0) {
-        $container.html('<p class="openvault-placeholder">No relationship data yet</p>');
+        $container.html('<p class="memoryvault-placeholder">No relationship data yet</p>');
         return;
     }
 
@@ -676,13 +676,13 @@ function renderTimelineItemTemplate(memory) {
     // Build character tags
     const characters = (memory.characters_involved || [])
         .slice(0, 3) // Limit to 3 for timeline
-        .map(c => `<span class="openvault-character-tag">${escapeHtml(c)}</span>`)
+        .map(c => `<span class="memoryvault-character-tag">${escapeHtml(c)}</span>`)
         .join('');
 
     // Build emotion tags (limit to 2 for timeline)
     const emotions = (memory.emotional_tone || [])
         .slice(0, 2)
-        .map(e => `<span class="openvault-emotion-tag">${escapeHtml(e)}</span>`)
+        .map(e => `<span class="memoryvault-emotion-tag">${escapeHtml(e)}</span>`)
         .join('');
 
     // Truncate summary for timeline view
