@@ -1,53 +1,53 @@
 /* Navigation Components - Buttons, Pagination, Status */
 
 /* Connection Test Button */
-.openvault-test-btn {
+.memoryvault-test-btn {
     padding: 4px 10px;
     font-size: 0.8em;
     margin-left: 8px;
 }
 
-.openvault-test-btn.success {
+.memoryvault-test-btn.success {
     color: #4a4;
 }
 
-.openvault-test-btn.error {
+.memoryvault-test-btn.error {
     color: #c44;
 }
 
 /* Status indicator */
-.openvault-status {
+.memoryvault-status {
     font-size: 0.8em;
     padding: 2px 8px;
     border-radius: 4px;
     margin-left: 8px;
 }
 
-.openvault-status.ready {
+.memoryvault-status.ready {
     background: var(--SmartThemeQuoteColor, #4a4);
     color: white;
 }
 
-.openvault-status.extracting,
-.openvault-status.retrieving {
+.memoryvault-status.extracting,
+.memoryvault-status.retrieving {
     background: var(--SmartThemeEmColor, #48c);
     color: white;
     animation: pulse 1s infinite;
 }
 
-.openvault-status.error {
+.memoryvault-status.error {
     background: var(--error-color, #c44);
     color: white;
 }
 
 /* Button rows */
-.openvault-button-row {
+.memoryvault-button-row {
     display: flex;
     gap: 8px;
     margin-bottom: 8px;
 }
 
-.openvault-button-row .menu_button {
+.memoryvault-button-row .menu_button {
     flex: 1;
 }
 
@@ -65,18 +65,18 @@
 }
 
 /* Pagination */
-.openvault-pagination {
+.memoryvault-pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
 }
 
-.openvault-pagination button {
+.memoryvault-pagination button {
     padding: 4px 10px;
 }
 
-#openvault_page_info {
+#memoryvault_page_info {
     font-size: 0.85em;
     color: var(--SmartThemeEmColor, #888);
 }

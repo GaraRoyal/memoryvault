@@ -1,6 +1,6 @@
 /* Card UI Components */
 
-.openvault-card {
+.memoryvault-card {
     background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
     border: 1px solid var(--SmartThemeBorderColor, #333);
     border-radius: 8px;
@@ -8,26 +8,26 @@
     margin-bottom: 10px;
 }
 
-.openvault-card-header {
+.memoryvault-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.openvault-card-title {
+.memoryvault-card-title {
     font-weight: bold;
     font-size: 0.95em;
     color: var(--SmartThemeBodyColor, #ccc);
 }
 
-.openvault-card-title i {
+.memoryvault-card-title i {
     margin-right: 6px;
     color: var(--SmartThemeEmColor, #48c);
 }
 
 /* Memory Cards (Enhanced Browser) */
-.openvault-memory-card {
+.memoryvault-memory-card {
     background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
     border: 1px solid var(--SmartThemeBorderColor, #333);
     border-radius: 8px;
@@ -37,61 +37,61 @@
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.openvault-memory-card:hover {
+.memoryvault-memory-card:hover {
     transform: translateX(2px);
     box-shadow: -2px 2px 8px rgba(0,0,0,0.2);
 }
 
-.openvault-memory-card.action {
+.memoryvault-memory-card.action {
     border-left-color: #4a4;
 }
 
-.openvault-memory-card.revelation {
+.memoryvault-memory-card.revelation {
     border-left-color: #c84;
 }
 
-.openvault-memory-card.emotion_shift {
+.memoryvault-memory-card.emotion_shift {
     border-left-color: #84c;
 }
 
-.openvault-memory-card.relationship_change {
+.memoryvault-memory-card.relationship_change {
     border-left-color: #c4a;
 }
 
 /* Pinned Memory Card */
-.openvault-memory-card.pinned {
+.memoryvault-memory-card.pinned {
     border-top: 2px solid #c90;
     background: linear-gradient(135deg, rgba(204, 153, 0, 0.08) 0%, var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2)) 100%);
 }
 
-.openvault-memory-card-badge.pinned {
+.memoryvault-memory-card-badge.pinned {
     color: #c90;
     background: rgba(204, 153, 0, 0.2);
 }
 
 /* Pin button styling */
-.openvault-pin-memory {
+.memoryvault-pin-memory {
     opacity: 0.6;
     transition: opacity 0.2s ease, color 0.2s ease;
 }
 
-.openvault-pin-memory:hover {
+.memoryvault-pin-memory:hover {
     opacity: 1;
 }
 
-.openvault-pin-memory.pinned {
+.memoryvault-pin-memory.pinned {
     opacity: 1;
     color: #c90;
 }
 
-.openvault-memory-card-header {
+.memoryvault-memory-card-header {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 8px;
 }
 
-.openvault-memory-card-icon {
+.memoryvault-memory-card-icon {
     width: 28px;
     height: 28px;
     border-radius: 6px;
@@ -102,51 +102,51 @@
     flex-shrink: 0;
 }
 
-.openvault-memory-card-icon.action {
+.memoryvault-memory-card-icon.action {
     background: rgba(74, 170, 74, 0.2);
     color: #4a4;
 }
 
-.openvault-memory-card-icon.revelation {
+.memoryvault-memory-card-icon.revelation {
     background: rgba(200, 132, 68, 0.2);
     color: #c84;
 }
 
-.openvault-memory-card-icon.emotion_shift {
+.memoryvault-memory-card-icon.emotion_shift {
     background: rgba(132, 68, 200, 0.2);
     color: #84c;
 }
 
-.openvault-memory-card-icon.relationship_change {
+.memoryvault-memory-card-icon.relationship_change {
     background: rgba(200, 68, 170, 0.2);
     color: #c4a;
 }
 
-.openvault-memory-card-meta {
+.memoryvault-memory-card-meta {
     flex: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.openvault-memory-card-type {
+.memoryvault-memory-card-type {
     font-size: 0.8em;
     font-weight: 500;
     text-transform: capitalize;
 }
 
-.openvault-memory-card-date {
+.memoryvault-memory-card-date {
     font-size: 0.75em;
     color: var(--SmartThemeEmColor, #888);
 }
 
-.openvault-memory-card-summary {
+.memoryvault-memory-card-summary {
     font-size: 0.95em;
     line-height: 1.4;
     margin-bottom: 10px;
 }
 
-.openvault-memory-card-footer {
+.memoryvault-memory-card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -154,43 +154,43 @@
     gap: 8px;
 }
 
-.openvault-memory-card-badges {
+.memoryvault-memory-card-badges {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
 }
 
-.openvault-memory-card-badge {
+.memoryvault-memory-card-badge {
     font-size: 0.7em;
     padding: 2px 8px;
     border-radius: 10px;
     background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.3));
 }
 
-.openvault-memory-card-badge.importance {
+.memoryvault-memory-card-badge.importance {
     color: var(--SmartThemeQuoteColor, #c90);
 }
 
-.openvault-memory-card-badge.witness {
+.memoryvault-memory-card-badge.witness {
     color: var(--SmartThemeEmColor, #888);
 }
 
-.openvault-memory-card-badge.location {
+.memoryvault-memory-card-badge.location {
     color: var(--SmartThemeEmColor, #6a8);
 }
 
-.openvault-memory-card-badge.pending-embed {
+.memoryvault-memory-card-badge.pending-embed {
     color: var(--SmartThemeQuoteColor, #c90);
 }
 
 /* Memory Edit Mode */
-.openvault-edit-form {
+.memoryvault-edit-form {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.openvault-edit-textarea {
+.memoryvault-edit-textarea {
     width: 100%;
     min-height: 80px;
     padding: 8px 10px;
@@ -204,18 +204,18 @@
     line-height: 1.4;
 }
 
-.openvault-edit-textarea:focus {
+.memoryvault-edit-textarea:focus {
     outline: none;
     border-color: var(--SmartThemeEmColor, #48c);
 }
 
-.openvault-edit-row {
+.memoryvault-edit-row {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
 }
 
-.openvault-edit-row label {
+.memoryvault-edit-row label {
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -225,7 +225,7 @@
     color: var(--SmartThemeEmColor, #888);
 }
 
-.openvault-edit-row select {
+.memoryvault-edit-row select {
     padding: 6px 8px;
     border: 1px solid var(--SmartThemeBorderColor, #333);
     border-radius: 6px;
@@ -233,32 +233,32 @@
     color: var(--SmartThemeBodyColor, #ccc);
 }
 
-.openvault-edit-actions {
+.memoryvault-edit-actions {
     display: flex;
     gap: 8px;
     justify-content: flex-end;
     margin-top: 4px;
 }
 
-.openvault-edit-actions .menu_button {
+.memoryvault-edit-actions .menu_button {
     padding: 6px 14px;
     font-size: 0.85em;
 }
 
-.openvault-edit-actions .openvault-save-edit {
+.memoryvault-edit-actions .memoryvault-save-edit {
     background: rgba(74, 170, 74, 0.2);
     color: #4a4;
 }
 
-.openvault-edit-actions .openvault-save-edit:hover {
+.memoryvault-edit-actions .memoryvault-save-edit:hover {
     background: rgba(74, 170, 74, 0.35);
 }
 
-.openvault-edit-actions .openvault-cancel-edit {
+.memoryvault-edit-actions .memoryvault-cancel-edit {
     background: rgba(170, 74, 74, 0.2);
     color: #a44;
 }
 
-.openvault-edit-actions .openvault-cancel-edit:hover {
+.memoryvault-edit-actions .memoryvault-cancel-edit:hover {
     background: rgba(170, 74, 74, 0.35);
 }

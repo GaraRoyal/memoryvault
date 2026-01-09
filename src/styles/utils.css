@@ -1,7 +1,7 @@
 /* Utilities - Badge, Placeholder, Footer, Help */
 
 /* Badge */
-.openvault-badge {
+.memoryvault-badge {
     display: inline-block;
     font-size: 0.8em;
     padding: 2px 8px;
@@ -11,7 +11,7 @@
 }
 
 /* Placeholder */
-.openvault-placeholder {
+.memoryvault-placeholder {
     text-align: center;
     color: var(--SmartThemeEmColor, #888);
     font-style: italic;
@@ -19,38 +19,38 @@
 }
 
 /* Danger zone */
-.openvault-danger .inline-drawer-header span {
+.memoryvault-danger .inline-drawer-header span {
     color: var(--error-color, #c44);
 }
 
 /* Footer */
-.openvault-footer {
+.memoryvault-footer {
     text-align: center;
     padding-top: 10px;
     color: var(--SmartThemeEmColor, #666);
 }
 
 /* Details/Help sections */
-.openvault-details {
+.memoryvault-details {
     margin-top: 8px;
     font-size: 0.85em;
 }
 
-.openvault-details summary {
+.memoryvault-details summary {
     cursor: pointer;
     color: var(--SmartThemeEmColor, #888);
     padding: 4px 0;
 }
 
-.openvault-details summary:hover {
+.memoryvault-details summary:hover {
     color: var(--SmartThemeBodyColor, #ccc);
 }
 
-.openvault-details summary i {
+.memoryvault-details summary i {
     margin-right: 4px;
 }
 
-.openvault-help-content {
+.memoryvault-help-content {
     margin-top: 8px;
     padding: 10px;
     background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
@@ -58,21 +58,21 @@
     border-left: 3px solid var(--SmartThemeEmColor, #48c);
 }
 
-.openvault-help-content p {
+.memoryvault-help-content p {
     margin: 0 0 8px 0;
 }
 
-.openvault-help-content ol,
-.openvault-help-content ul {
+.memoryvault-help-content ol,
+.memoryvault-help-content ul {
     margin: 0 0 8px 0;
     padding-left: 20px;
 }
 
-.openvault-help-content li {
+.memoryvault-help-content li {
     margin-bottom: 4px;
 }
 
-.openvault-help-content code {
+.memoryvault-help-content code {
     background: rgba(0,0,0,0.3);
     padding: 1px 4px;
     border-radius: 3px;

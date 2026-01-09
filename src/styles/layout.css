@@ -1,14 +1,14 @@
 /* Layout - Tab Navigation & Sections */
 
 /* Tab Navigation */
-.openvault-tab-nav {
+.memoryvault-tab-nav {
     display: flex;
     border-bottom: 2px solid var(--SmartThemeBorderColor, #333);
     margin-bottom: 15px;
     gap: 2px;
 }
 
-.openvault-tab-btn {
+.memoryvault-tab-btn {
     flex: 1;
     padding: 10px 8px;
     text-align: center;
@@ -23,48 +23,48 @@
     margin-bottom: -2px;
 }
 
-.openvault-tab-btn:hover {
+.memoryvault-tab-btn:hover {
     opacity: 0.85;
     background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.1));
 }
 
-.openvault-tab-btn.active {
+.memoryvault-tab-btn.active {
     opacity: 1;
     border-bottom-color: var(--SmartThemeEmColor, #48c);
     font-weight: bold;
 }
 
-.openvault-tab-btn i {
+.memoryvault-tab-btn i {
     margin-right: 4px;
 }
 
-.openvault-tab-content {
+.memoryvault-tab-content {
     display: none;
 }
 
-.openvault-tab-content.active {
+.memoryvault-tab-content.active {
     display: block;
 }
 
 /* Sections */
-.openvault-section {
+.memoryvault-section {
     margin-bottom: 15px;
     padding-bottom: 15px;
     border-bottom: 1px solid var(--SmartThemeBorderColor, #333);
 }
 
-.openvault-section:last-child {
+.memoryvault-section:last-child {
     border-bottom: none;
 }
 
-.openvault-section h4 {
+.memoryvault-section h4 {
     margin: 0 0 10px 0;
     font-size: 0.9em;
     color: var(--SmartThemeEmColor, #aaa);
 }
 
 /* Hints */
-.openvault-hint {
+.memoryvault-hint {
     display: block;
     font-size: 0.8em;
     color: var(--SmartThemeEmColor, #888);

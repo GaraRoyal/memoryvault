@@ -1,13 +1,13 @@
 /* Memory Components - List, Characters, Relationships */
 
 /* Memory list */
-.openvault-memory-list {
+.memoryvault-memory-list {
     max-height: 300px;
     overflow-y: auto;
     margin-bottom: 10px;
 }
 
-.openvault-memory-item {
+.memoryvault-memory-item {
     padding: 8px;
     margin-bottom: 8px;
     background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
@@ -15,110 +15,110 @@
     border-left: 3px solid var(--SmartThemeEmColor, #48c);
 }
 
-.openvault-memory-item.action {
+.memoryvault-memory-item.action {
     border-left-color: #4a4;
 }
 
-.openvault-memory-item.revelation {
+.memoryvault-memory-item.revelation {
     border-left-color: #c84;
 }
 
-.openvault-memory-item.emotion_shift {
+.memoryvault-memory-item.emotion_shift {
     border-left-color: #84c;
 }
 
-.openvault-memory-item.relationship_change {
+.memoryvault-memory-item.relationship_change {
     border-left-color: #c4a;
 }
 
-.openvault-memory-header {
+.memoryvault-memory-header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 4px;
 }
 
-.openvault-memory-type {
+.memoryvault-memory-type {
     font-size: 0.75em;
     padding: 1px 6px;
     border-radius: 3px;
     background: var(--SmartThemeEmColor, rgba(72, 136, 204, 0.3));
 }
 
-.openvault-memory-date {
+.memoryvault-memory-date {
     font-size: 0.75em;
     color: var(--SmartThemeEmColor, #888);
 }
 
-.openvault-memory-importance {
+.memoryvault-memory-importance {
     font-size: 0.75em;
     color: var(--SmartThemeQuoteColor, #c90);
     letter-spacing: -1px;
 }
 
-.openvault-memory-summary {
+.memoryvault-memory-summary {
     font-size: 0.9em;
     margin-bottom: 4px;
 }
 
-.openvault-memory-characters {
+.memoryvault-memory-characters {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
 }
 
-.openvault-character-tag {
+.memoryvault-character-tag {
     font-size: 0.7em;
     padding: 1px 5px;
     border-radius: 3px;
     background: var(--SmartThemeQuoteColor, rgba(74, 170, 74, 0.3));
 }
 
-.openvault-memory-witnesses {
+.memoryvault-memory-witnesses {
     font-size: 0.75em;
     color: var(--SmartThemeEmColor, #888);
     margin-top: 4px;
 }
 
-.openvault-memory-actions {
+.memoryvault-memory-actions {
     margin-top: 6px;
     text-align: right;
 }
 
-.openvault-memory-actions button {
+.memoryvault-memory-actions button {
     font-size: 0.75em;
     padding: 2px 8px;
 }
 
 /* Character states */
-.openvault-character-list {
+.memoryvault-character-list {
     max-height: 300px;
     overflow-y: auto;
 }
 
-.openvault-character-item {
+.memoryvault-character-item {
     padding: 10px;
     margin-bottom: 8px;
     background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
     border-radius: 4px;
 }
 
-.openvault-character-name {
+.memoryvault-character-name {
     font-weight: bold;
     margin-bottom: 6px;
 }
 
-.openvault-emotion {
+.memoryvault-emotion {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 6px;
 }
 
-.openvault-emotion-label {
+.memoryvault-emotion-label {
     font-size: 0.85em;
 }
 
-.openvault-emotion-bar {
+.memoryvault-emotion-bar {
     flex: 1;
     height: 8px;
     background: var(--SmartThemeBorderColor, #333);
@@ -126,54 +126,54 @@
     overflow: hidden;
 }
 
-.openvault-emotion-fill {
+.memoryvault-emotion-fill {
     height: 100%;
     background: var(--SmartThemeEmColor, #48c);
     transition: width 0.3s;
 }
 
 /* Relationships */
-.openvault-relationship-list {
+.memoryvault-relationship-list {
     max-height: 300px;
     overflow-y: auto;
 }
 
-.openvault-relationship-item {
+.memoryvault-relationship-item {
     padding: 10px;
     margin-bottom: 8px;
     background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
     border-radius: 4px;
 }
 
-.openvault-relationship-pair {
+.memoryvault-relationship-pair {
     font-weight: bold;
     margin-bottom: 6px;
 }
 
-.openvault-relationship-type {
+.memoryvault-relationship-type {
     font-size: 0.8em;
     color: var(--SmartThemeEmColor, #888);
     margin-bottom: 6px;
 }
 
-.openvault-relationship-bars {
+.memoryvault-relationship-bars {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.openvault-bar-row {
+.memoryvault-bar-row {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.openvault-bar-label {
+.memoryvault-bar-label {
     font-size: 0.8em;
     width: 60px;
 }
 
-.openvault-bar-container {
+.memoryvault-bar-container {
     flex: 1;
     height: 8px;
     background: var(--SmartThemeBorderColor, #333);
@@ -181,16 +181,16 @@
     overflow: hidden;
 }
 
-.openvault-bar-fill {
+.memoryvault-bar-fill {
     height: 100%;
     transition: width 0.3s;
 }
 
-.openvault-bar-fill.trust {
+.memoryvault-bar-fill.trust {
     background: #4a4;
 }
 
-.openvault-bar-fill.tension {
+.memoryvault-bar-fill.tension {
     background: #c44;
 }
 
@@ -332,8 +332,8 @@
     margin-top: 6px;
 }
 
-.memoryvault-timeline-meta .openvault-character-tag,
-.memoryvault-timeline-meta .openvault-emotion-tag {
+.memoryvault-timeline-meta .memoryvault-character-tag,
+.memoryvault-timeline-meta .memoryvault-emotion-tag {
     font-size: 0.65em;
 }
 
