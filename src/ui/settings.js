@@ -13,6 +13,7 @@ import { updateEmbeddingStatusDisplay } from './status.js';
 import { getOpenVaultData, showToast } from '../utils.js';
 import { scoreMemories } from '../retrieval/math.js';
 import { getScoringParams } from '../retrieval/scoring.js';
+import { initWorldState, refreshWorldState } from './worldstate.js';
 
 // References to external functions (set during init)
 let updateEventListenersFn = null;
@@ -171,6 +172,11 @@ export async function loadSettings() {
 
     // Initialize browser event delegation (must be after HTML is loaded)
     initBrowser();
+
+    // Initialize World State UI
+    initWorldState();
+    // Export refresh function globally for cross-module access
+    window.memoryvaultRefreshWorldState = refreshWorldState;
 
     // Inject version from manifest.json
     try {

@@ -13,6 +13,7 @@ const files = [
     'components/forms.css',
     'components/navigation.css',
     'components/memory.css',
+    'components/worldstate.css',
     'utils.css'
 ];
 

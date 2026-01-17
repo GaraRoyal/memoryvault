@@ -7,10 +7,14 @@
 
 import { getDeps } from '../deps.js';
 import { getOpenVaultData, safeSetExtensionPrompt, log, isExtensionEnabled, isAutomaticMode } from '../utils.js';
-import { extensionName, MEMORIES_KEY, CHARACTERS_KEY } from '../constants.js';
+import { extensionName, MEMORIES_KEY, CHARACTERS_KEY, GOALS_KEY, PROMISES_KEY, LOCATIONS_KEY } from '../constants.js';
 import { getActiveCharacters, getPOVContext, filterMemoriesByPOV } from '../pov.js';
 import { selectRelevantMemories } from './scoring.js';
 import { getRelationshipContext, formatContextForInjection } from './formatting.js';
+import { filterMemoriesByKnowledge } from '../systems/secrets.js';
+import { getLocation, getMemoriesAtLocation } from '../systems/locations.js';
+import { getPendingPromisesFor, PromiseStatus } from '../systems/promises.js';
+import { getActiveGoals, GoalStatus } from '../systems/goals.js';
 
 /**
  * Get memories from hidden (system) messages that need retrieval
@@ -30,6 +34,87 @@ function _getHiddenMemories(chat, memories) {
         const minId = Math.min(...m.message_ids);
         return chat[minId]?.is_system;
     });
+}
+
+/**
+ * Filter memories by secret knowledge
+ * Memories marked as secrets are only included if the POV character knows them
+ * @param {Object[]} memories - Memories to filter
+ * @param {string} povCharacter - POV character (who knows what)
+ * @param {Object} settings - Extension settings
+ * @returns {Object[]} Filtered memories
+ */
+function _filterBySecretKnowledge(memories, povCharacter, settings) {
+    if (!settings.secretKnowledgeEnabled) {
+        return memories;
+    }
+
+    return filterMemoriesByKnowledge(memories, povCharacter);
+}
+
+/**
+ * Boost memories related to current location
+ * @param {Object[]} memories - Memories with scores
+ * @param {string} currentLocation - Detected current location
+ * @param {number} boostFactor - Score multiplier for location match
+ * @returns {Object[]} Memories with boosted scores
+ */
+function _boostLocationMemories(memories, currentLocation, boostFactor) {
+    if (!currentLocation) return memories;
+
+    const locationNormalized = currentLocation.toLowerCase();
+
+    return memories.map(m => {
+        if (m.location && m.location.toLowerCase().includes(locationNormalized)) {
+            return { ...m, _score: (m._score || 0) * boostFactor };
+        }
+        return m;
+    });
+}
+
+/**
+ * Get context from new systems (goals, promises, skills)
+ * @param {Object} data - MemoryVault data
+ * @param {string} primaryCharacter - Primary POV character
+ * @param {string[]} activeCharacters - Characters in scene
+ * @returns {Object} Extra context from systems
+ */
+function _getSystemsContext(data, primaryCharacter, activeCharacters) {
+    const context = {
+        activeGoals: [],
+        pendingPromises: [],
+        relevantSkills: [],
+    };
+
+    // Get active goals for characters in scene
+    const goals = data[GOALS_KEY] || {};
+    for (const char of activeCharacters) {
+        const charGoals = goals[char] || [];
+        const active = charGoals.filter(g => g.status === GoalStatus.ACTIVE);
+        for (const goal of active.slice(0, 2)) { // Top 2 per character
+            context.activeGoals.push({
+                character: char,
+                goal: goal.goal,
+                motivation: goal.motivation,
+                priority: goal.priority,
+            });
+        }
+    }
+
+    // Get pending promises involving scene characters
+    const promises = data[PROMISES_KEY] || {};
+    for (const promise of Object.values(promises)) {
+        if (promise.status !== PromiseStatus.PENDING) continue;
+        if (activeCharacters.includes(promise.from) || activeCharacters.includes(promise.to)) {
+            context.pendingPromises.push({
+                from: promise.from,
+                to: promise.to,
+                content: promise.content,
+            });
+        }
+    }
+
+    return context;
 }
 
 /**
@@ -144,12 +229,17 @@ export async function retrieveAndInjectContext() {
 
         // Filter memories by POV
         const accessibleMemories = filterMemoriesByPOV(hiddenMemories, povCharacters, data);
-        log(`Retrieval filter: total=${memories.length}, hidden=${hiddenMemories.length}, pov=${accessibleMemories.length} (mode=${isGroupChat ? 'group' : 'narrator'}, chars=[${povCharacters.join(', ')}])`);
+
+        // Apply secret knowledge filtering (prevents AI from knowing character-specific secrets)
+        const primaryCharacter = isGroupChat ? povCharacters[0] : context.name2;
+        const knowledgeFiltered = _filterBySecretKnowledge(accessibleMemories, primaryCharacter, settings);
+
+        log(`Retrieval filter: total=${memories.length}, hidden=${hiddenMemories.length}, pov=${accessibleMemories.length}, secrets=${knowledgeFiltered.length} (mode=${isGroupChat ? 'group' : 'narrator'}, chars=[${povCharacters.join(', ')}])`);
 
         // Fallback to hidden memories if POV filter is too strict
-        let memoriesToUse = accessibleMemories;
-        if (accessibleMemories.length === 0 && hiddenMemories.length > 0) {
-            log('POV filter returned 0 results, using all hidden memories as fallback');
+        let memoriesToUse = knowledgeFiltered;
+        if (knowledgeFiltered.length === 0 && hiddenMemories.length > 0) {
+            log('POV/secrets filter returned 0 results, using all hidden memories as fallback');
             memoriesToUse = hiddenMemories;
         }
 
@@ -158,7 +248,7 @@ export async function retrieveAndInjectContext() {
             return null;
         }
 
-        const primaryCharacter = isGroupChat ? povCharacters[0] : context.name2;
+        // primaryCharacter already declared above for secret filtering
         const headerName = isGroupChat ? primaryCharacter : 'Scene';
         const recentMessages = chat.filter(m => !m.is_system).map(m => m.mes).join('\n');
         // Extract last 3 user messages for embedding (user intent matters most)

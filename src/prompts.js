@@ -125,10 +125,14 @@ If most extractions are 4-5, you're over-rating routine events.
   "witnesses": ["names who observed this event"],
   "location": "where it happened or null",
   "is_secret": true/false,
+  "known_by": ["characters who know about this (if is_secret=true)"],
   "emotional_tone": ["1-3 tags from: romantic, tense, playful, intimate, threatening, vulnerable, joyful, melancholic, angry, fearful, trusting, passionate, awkward, comforting, erotic, dominant, submissive"],
   "emotional_valence": -1.0 to 1.0 (negative=-1, neutral=0, positive=+1),
   "emotional_impact": {"CharacterName": "1-3 word emotion"},
-  "relationship_impact": {"A->B": {"change": "1-3 word description", "trust": -2 to +2, "tension": -2 to +2, "respect": -2 to +2, "attraction": -2 to +2, "fear": -2 to +2, "loyalty": -2 to +2, "familiarity": 0 or +1}}
+  "relationship_impact": {"A->B": {"change": "1-3 word description", "trust": -2 to +2, "tension": -2 to +2, "respect": -2 to +2, "attraction": -2 to +2, "fear": -2 to +2, "loyalty": -2 to +2, "familiarity": 0 or +1}},
+  "promise": {"from": "name", "to": "name", "content": "what was promised"} | null,
+  "goal": {"character": "name", "goal": "what they want", "motivation": "why"} | null,
+  "skill": {"character": "name", "skill": "skill name", "category": "combat|magic|social|craft|knowledge|physical|stealth|survival|artistic|other", "source": "how learned"} | null
 }
 </output_format>
 </schema>`;
@@ -380,6 +384,95 @@ function _extractionExamples() {
 <note>Location inferred from context: car + parking garage.</note>
 </example>
 
+<example type="promise_made">
+<input>[Marcus]: *takes her hands, looking deep into her eyes* I swear to you, Elena. I will find your brother and bring him home. No matter what it takes.
+[Elena]: *tears streaming* You... you promise?
+[Marcus]: On my life. I promise.</input>
+<output>[
+  {
+    "event_type": "relationship_change",
+    "importance": 4,
+    "summary": "Marcus swore an oath to Elena to find and return her missing brother.",
+    "characters_involved": ["Marcus", "Elena"],
+    "witnesses": ["Marcus", "Elena"],
+    "location": null,
+    "is_secret": false,
+    "emotional_tone": ["trusting", "vulnerable"],
+    "emotional_valence": 0.4,
+    "emotional_impact": {"Marcus": "determined", "Elena": "hopeful, grateful"},
+    "relationship_impact": {"Marcus->Elena": {"change": "oath sworn", "trust": 2, "loyalty": 2}},
+    "promise": {"from": "Marcus", "to": "Elena", "content": "find and return her missing brother"}
+  }
+]</output>
+<note>Promise detected - extract with promise object.</note>
+</example>
+
+<example type="goal_revealed">
+<input>[Zara]: *staring at the distant mountains* I've spent my whole life training for this. I must become the first female knight of the realm. It's not just about me - it's for every girl who was told she couldn't.
+[Kai]: That's... that's a heavy burden to carry.</input>
+<output>[
+  {
+    "event_type": "revelation",
+    "importance": 4,
+    "summary": "Zara revealed her lifelong goal to become the realm's first female knight to inspire others.",
+    "characters_involved": ["Zara"],
+    "witnesses": ["Zara", "Kai"],
+    "location": null,
+    "is_secret": false,
+    "emotional_tone": ["passionate", "vulnerable"],
+    "emotional_valence": 0.3,
+    "emotional_impact": {"Zara": "determined, vulnerable", "Kai": "impressed"},
+    "relationship_impact": {"Zara->Kai": {"change": "opened up", "trust": 1, "familiarity": 1}},
+    "goal": {"character": "Zara", "goal": "become the first female knight of the realm", "motivation": "inspire other girls who were told they couldn't"}
+  }
+]</output>
+<note>Goal detected - extract with goal object including motivation.</note>
+</example>
+
+<example type="skill_learned">
+<input>[Master Chen]: *nods approvingly as Kai completes the form* You have mastered the Shadow Step technique. Few achieve this in under a year.
+[Kai]: *bows deeply* Thank you, Master. Your teachings have been invaluable.</input>
+<output>[
+  {
+    "event_type": "action",
+    "importance": 4,
+    "summary": "Kai mastered the Shadow Step technique under Master Chen's tutelage.",
+    "characters_involved": ["Kai", "Master Chen"],
+    "witnesses": ["Kai", "Master Chen"],
+    "location": "training grounds",
+    "is_secret": false,
+    "emotional_tone": ["joyful", "trusting"],
+    "emotional_valence": 0.7,
+    "emotional_impact": {"Kai": "accomplished", "Master Chen": "proud"},
+    "relationship_impact": {"Kai->Master Chen": {"change": "respect deepened", "respect": 1}},
+    "skill": {"character": "Kai", "skill": "Shadow Step technique", "category": "combat", "source": "taught by Master Chen"}
+  }
+]</output>
+<note>Skill learned - extract with skill object including teacher.</note>
+</example>
+
+<example type="secret_knowledge">
+<input>[Elena]: *whispers urgently, glancing around* The king is dying. Poison. I overheard the physician - he has weeks at most. No one else knows.
+[Marcus]: *eyes widen* Gods... if this gets out...</input>
+<output>[
+  {
+    "event_type": "revelation",
+    "importance": 5,
+    "summary": "Elena revealed to Marcus that the king is being poisoned and has weeks to live.",
+    "characters_involved": ["Elena"],
+    "witnesses": ["Elena", "Marcus"],
+    "location": null,
+    "is_secret": true,
+    "known_by": ["Elena", "Marcus", "court physician"],
+    "emotional_tone": ["tense", "fearful"],
+    "emotional_valence": -0.6,
+    "emotional_impact": {"Elena": "fearful, urgent", "Marcus": "shocked"},
+    "relationship_impact": {"Elena->Marcus": {"change": "entrusted secret", "trust": 2}}
+  }
+]</output>
+<note>Secret knowledge - is_secret=true with known_by list.</note>
+</example>
+
 <example type="same_act_continuation_skip">
 <established_memories>
 1. [action] Derek spanked Sasha with his belt as punishment for teasing.
@@ -517,6 +610,26 @@ Extract significant events from <messages> following these steps:
    - Include notable descriptors (candlelit bedroom, backseat of car, secluded alcove)
    - Use null ONLY when location is truly unknowable from context
    - Prefer specific over general (bedroom > house, backseat > car)
+
+6. PROMISE detection:
+   - Look for promise language: "I promise", "I swear", "I vow", "you have my word", "I owe you"
+   - Extract who promised what to whom
+   - Include promise object in output when detected
+
+7. GOAL detection:
+   - Look for goal language: "I want to", "my dream is", "I must", "my goal is"
+   - Extract character's goal and their motivation
+   - Include goal object in output when detected
+
+8. SKILL detection:
+   - Look for skill learning: "learned to", "mastered", "trained in", "taught by"
+   - Extract skill name, category, and how it was learned
+   - Include skill object in output when detected
+
+9. SECRET KNOWLEDGE tracking:
+   - When is_secret=true, populate known_by with characters who know
+   - Include witnesses by default, plus anyone else mentioned as knowing
+   - This enables POV-aware memory filtering
 
 <avoid>
 DO NOT extract:

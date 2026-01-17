@@ -949,4 +949,9 @@ export function refreshAllUI() {
     renderCharacterProfiles();
     renderRelationships();
     renderTimeline();
+
+    // Refresh World State tab if the module is loaded
+    if (typeof window.memoryvaultRefreshWorldState === 'function') {
+        window.memoryvaultRefreshWorldState();
+    }
 }

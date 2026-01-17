@@ -1,0 +1,380 @@
+/* World State Components - Secrets, Locations, Promises, Goals, Skills */
+
+/* Count Badge */
+.memoryvault-count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    background: var(--SmartThemeEmColor, #48c);
+    color: white;
+    font-size: 0.75em;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+/* Compact List Container */
+.memoryvault-compact-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* World State Summary */
+.memoryvault-world-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.memoryvault-world-stat {
+    flex: 1;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
+.memoryvault-world-stat i {
+    color: var(--SmartThemeEmColor, #48c);
+}
+
+/* Secret Item */
+.memoryvault-secret-item {
+    padding: 10px;
+    margin-bottom: 8px;
+    background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
+    border: 1px solid var(--SmartThemeBorderColor, #333);
+    border-radius: 6px;
+    border-left: 3px solid #c44;
+}
+
+.memoryvault-secret-item.revealed {
+    border-left-color: #4a4;
+    opacity: 0.7;
+}
+
+.memoryvault-secret-content {
+    font-size: 0.95em;
+    margin-bottom: 6px;
+}
+
+.memoryvault-secret-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.8em;
+    color: var(--SmartThemeEmColor, #888);
+}
+
+.memoryvault-known-by {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.memoryvault-known-by i {
+    color: #c84;
+}
+
+/* Location Item */
+.memoryvault-location-item {
+    padding: 10px;
+    margin-bottom: 8px;
+    background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
+    border: 1px solid var(--SmartThemeBorderColor, #333);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.memoryvault-location-item:hover {
+    background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.3));
+}
+
+.memoryvault-location-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.memoryvault-location-name {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.memoryvault-location-name i {
+    color: var(--SmartThemeEmColor, #48c);
+}
+
+.memoryvault-location-visits {
+    font-size: 0.8em;
+    color: var(--SmartThemeEmColor, #888);
+}
+
+.memoryvault-location-memories {
+    font-size: 0.85em;
+    color: var(--SmartThemeEmColor, #888);
+}
+
+/* Promise Item */
+.memoryvault-promise-item {
+    padding: 10px;
+    margin-bottom: 8px;
+    background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
+    border: 1px solid var(--SmartThemeBorderColor, #333);
+    border-radius: 6px;
+}
+
+.memoryvault-promise-item.pending {
+    border-left: 3px solid #c84;
+}
+
+.memoryvault-promise-item.fulfilled {
+    border-left: 3px solid #4a4;
+}
+
+.memoryvault-promise-item.broken {
+    border-left: 3px solid #c44;
+}
+
+.memoryvault-promise-item.forgiven {
+    border-left: 3px solid #48c;
+}
+
+.memoryvault-promise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.memoryvault-promise-parties {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.memoryvault-promise-parties i {
+    margin: 0 4px;
+    color: var(--SmartThemeEmColor, #888);
+}
+
+.memoryvault-promise-status {
+    font-size: 0.75em;
+    padding: 2px 8px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.memoryvault-promise-status.pending {
+    background: rgba(200, 132, 68, 0.2);
+    color: #c84;
+}
+
+.memoryvault-promise-status.fulfilled {
+    background: rgba(74, 170, 74, 0.2);
+    color: #4a4;
+}
+
+.memoryvault-promise-status.broken {
+    background: rgba(204, 68, 68, 0.2);
+    color: #c44;
+}
+
+.memoryvault-promise-status.forgiven {
+    background: rgba(72, 136, 204, 0.2);
+    color: #48c;
+}
+
+.memoryvault-promise-content {
+    font-size: 0.9em;
+    font-style: italic;
+    color: var(--SmartThemeBodyColor, #ccc);
+}
+
+.memoryvault-promise-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.memoryvault-promise-actions button {
+    font-size: 0.75em;
+    padding: 4px 8px;
+}
+
+/* Goal Item */
+.memoryvault-goal-item {
+    padding: 10px;
+    margin-bottom: 8px;
+    background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
+    border: 1px solid var(--SmartThemeBorderColor, #333);
+    border-radius: 6px;
+}
+
+.memoryvault-goal-item.active {
+    border-left: 3px solid #48c;
+}
+
+.memoryvault-goal-item.completed {
+    border-left: 3px solid #4a4;
+    opacity: 0.8;
+}
+
+.memoryvault-goal-item.abandoned,
+.memoryvault-goal-item.failed {
+    border-left: 3px solid #c44;
+    opacity: 0.6;
+}
+
+.memoryvault-goal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.memoryvault-goal-character {
+    font-weight: bold;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.memoryvault-goal-character i {
+    color: var(--SmartThemeEmColor, #48c);
+}
+
+.memoryvault-goal-priority {
+    font-size: 0.7em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.memoryvault-goal-priority.critical {
+    background: rgba(204, 68, 68, 0.2);
+    color: #c44;
+}
+
+.memoryvault-goal-priority.high {
+    background: rgba(200, 132, 68, 0.2);
+    color: #c84;
+}
+
+.memoryvault-goal-priority.medium {
+    background: rgba(72, 136, 204, 0.2);
+    color: #48c;
+}
+
+.memoryvault-goal-priority.low {
+    background: rgba(136, 136, 136, 0.2);
+    color: #888;
+}
+
+.memoryvault-goal-content {
+    font-size: 0.9em;
+    margin-bottom: 4px;
+}
+
+.memoryvault-goal-motivation {
+    font-size: 0.8em;
+    color: var(--SmartThemeEmColor, #888);
+    font-style: italic;
+}
+
+/* Skill Item */
+.memoryvault-skill-item {
+    padding: 10px;
+    margin-bottom: 8px;
+    background: var(--SmartThemeBlurTintColor, rgba(0,0,0,0.2));
+    border: 1px solid var(--SmartThemeBorderColor, #333);
+    border-radius: 6px;
+}
+
+.memoryvault-skill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.memoryvault-skill-name {
+    font-weight: bold;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.memoryvault-skill-category {
+    font-size: 0.7em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: rgba(72, 136, 204, 0.2);
+    color: #48c;
+    text-transform: capitalize;
+}
+
+.memoryvault-skill-category.combat { background: rgba(204, 68, 68, 0.2); color: #c44; }
+.memoryvault-skill-category.magic { background: rgba(136, 68, 204, 0.2); color: #84c; }
+.memoryvault-skill-category.social { background: rgba(200, 132, 68, 0.2); color: #c84; }
+.memoryvault-skill-category.craft { background: rgba(68, 170, 136, 0.2); color: #4a8; }
+.memoryvault-skill-category.knowledge { background: rgba(72, 136, 204, 0.2); color: #48c; }
+
+.memoryvault-skill-character {
+    font-size: 0.85em;
+    color: var(--SmartThemeEmColor, #888);
+}
+
+.memoryvault-skill-proficiency {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.memoryvault-skill-proficiency-label {
+    font-size: 0.8em;
+    color: var(--SmartThemeEmColor, #888);
+}
+
+.memoryvault-skill-proficiency-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--SmartThemeBorderColor, #333);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.memoryvault-skill-proficiency-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #48c, #4a4);
+    transition: width 0.3s ease;
+}
+
+.memoryvault-skill-proficiency-fill.novice { width: 16.67%; background: #888; }
+.memoryvault-skill-proficiency-fill.beginner { width: 33.33%; background: #48c; }
+.memoryvault-skill-proficiency-fill.competent { width: 50%; background: #4a8; }
+.memoryvault-skill-proficiency-fill.skilled { width: 66.67%; background: #4a4; }
+.memoryvault-skill-proficiency-fill.expert { width: 83.33%; background: #c84; }
+.memoryvault-skill-proficiency-fill.master { width: 100%; background: linear-gradient(90deg, #c84, #c44); }
+
+.memoryvault-skill-source {
+    font-size: 0.8em;
+    color: var(--SmartThemeEmColor, #888);
+    margin-top: 4px;
+}

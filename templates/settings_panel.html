@@ -14,6 +14,9 @@
                 <button class="memoryvault-tab-btn" data-tab="memory-bank">
                     <i class="fa-solid fa-brain"></i> Memory Bank
                 </button>
+                <button class="memoryvault-tab-btn" data-tab="world-state">
+                    <i class="fa-solid fa-globe"></i> World State
+                </button>
                 <button class="memoryvault-tab-btn" data-tab="configuration">
                     <i class="fa-solid fa-sliders"></i> Config
                 </button>
@@ -223,7 +226,154 @@
             </div>
 
             <!-- ================================================================
-                 TAB 3: CONFIGURATION
+                 TAB 3: WORLD STATE
+                 ================================================================ -->
+            <div class="memoryvault-tab-content" data-tab="world-state">
+                <!-- Secrets Section -->
+                <div class="inline-drawer">
+                    <div class="inline-drawer-toggle inline-drawer-header">
+                        <span><i class="fa-solid fa-user-secret"></i> Secrets <span id="memoryvault_secrets_count" class="memoryvault-count-badge">0</span></span>
+                        <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+                    </div>
+                    <div class="inline-drawer-content">
+                        <small class="memoryvault-hint" style="display: block; margin-bottom: 10px;">
+                            Track what each character knows. Secrets are filtered during retrieval based on POV.
+                        </small>
+                        <div id="memoryvault_secrets_list" class="memoryvault-compact-list">
+                            <p class="memoryvault-placeholder">No secrets tracked yet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Locations Section -->
+                <div class="inline-drawer" style="margin-top: 15px;">
+                    <div class="inline-drawer-toggle inline-drawer-header">
+                        <span><i class="fa-solid fa-map-location-dot"></i> Locations <span id="memoryvault_locations_count" class="memoryvault-count-badge">0</span></span>
+                        <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+                    </div>
+                    <div class="inline-drawer-content">
+                        <small class="memoryvault-hint" style="display: block; margin-bottom: 10px;">
+                            Places mentioned in the story. Click to see what happened there.
+                        </small>
+                        <div id="memoryvault_locations_list" class="memoryvault-compact-list">
+                            <p class="memoryvault-placeholder">No locations tracked yet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Promises Section -->
+                <div class="inline-drawer" style="margin-top: 15px;">
+                    <div class="inline-drawer-toggle inline-drawer-header">
+                        <span><i class="fa-solid fa-handshake"></i> Promises & Debts <span id="memoryvault_promises_count" class="memoryvault-count-badge">0</span></span>
+                        <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+                    </div>
+                    <div class="inline-drawer-content">
+                        <small class="memoryvault-hint" style="display: block; margin-bottom: 10px;">
+                            Commitments characters have made to each other.
+                        </small>
+                        <div class="memoryvault-promise-filters" style="margin-bottom: 10px;">
+                            <select id="memoryvault_promise_status_filter" class="text_pole" style="width: auto;">
+                                <option value="">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="fulfilled">Fulfilled</option>
+                                <option value="broken">Broken</option>
+                                <option value="forgiven">Forgiven</option>
+                            </select>
+                        </div>
+                        <div id="memoryvault_promises_list" class="memoryvault-compact-list">
+                            <p class="memoryvault-placeholder">No promises tracked yet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goals Section -->
+                <div class="inline-drawer" style="margin-top: 15px;">
+                    <div class="inline-drawer-toggle inline-drawer-header">
+                        <span><i class="fa-solid fa-bullseye"></i> Character Goals <span id="memoryvault_goals_count" class="memoryvault-count-badge">0</span></span>
+                        <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+                    </div>
+                    <div class="inline-drawer-content">
+                        <small class="memoryvault-hint" style="display: block; margin-bottom: 10px;">
+                            What each character wants to achieve.
+                        </small>
+                        <div class="memoryvault-goal-filters" style="margin-bottom: 10px;">
+                            <select id="memoryvault_goal_status_filter" class="text_pole" style="width: auto;">
+                                <option value="">All Status</option>
+                                <option value="active">Active</option>
+                                <option value="completed">Completed</option>
+                                <option value="abandoned">Abandoned</option>
+                                <option value="failed">Failed</option>
+                            </select>
+                        </div>
+                        <div id="memoryvault_goals_list" class="memoryvault-compact-list">
+                            <p class="memoryvault-placeholder">No goals tracked yet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Section -->
+                <div class="inline-drawer" style="margin-top: 15px;">
+                    <div class="inline-drawer-toggle inline-drawer-header">
+                        <span><i class="fa-solid fa-wand-magic-sparkles"></i> Skills & Abilities <span id="memoryvault_skills_count" class="memoryvault-count-badge">0</span></span>
+                        <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+                    </div>
+                    <div class="inline-drawer-content">
+                        <small class="memoryvault-hint" style="display: block; margin-bottom: 10px;">
+                            What characters have learned to do.
+                        </small>
+                        <div class="memoryvault-skill-filters" style="margin-bottom: 10px;">
+                            <select id="memoryvault_skill_category_filter" class="text_pole" style="width: auto;">
+                                <option value="">All Categories</option>
+                                <option value="combat">Combat</option>
+                                <option value="magic">Magic</option>
+                                <option value="social">Social</option>
+                                <option value="craft">Craft</option>
+                                <option value="knowledge">Knowledge</option>
+                                <option value="physical">Physical</option>
+                                <option value="stealth">Stealth</option>
+                                <option value="survival">Survival</option>
+                                <option value="artistic">Artistic</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div id="memoryvault_skills_list" class="memoryvault-compact-list">
+                            <p class="memoryvault-placeholder">No skills tracked yet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- World State Summary -->
+                <div class="memoryvault-card" style="margin-top: 15px;">
+                    <div class="memoryvault-card-header">
+                        <span class="memoryvault-card-title"><i class="fa-solid fa-chart-pie"></i> World State Summary</span>
+                    </div>
+                    <div class="memoryvault-world-stats">
+                        <div class="memoryvault-world-stat">
+                            <i class="fa-solid fa-user-secret"></i>
+                            <span id="memoryvault_active_secrets">0</span> active secrets
+                        </div>
+                        <div class="memoryvault-world-stat">
+                            <i class="fa-solid fa-map-marker-alt"></i>
+                            <span id="memoryvault_total_locations">0</span> locations
+                        </div>
+                        <div class="memoryvault-world-stat">
+                            <i class="fa-solid fa-hourglass-half"></i>
+                            <span id="memoryvault_pending_promises">0</span> pending promises
+                        </div>
+                        <div class="memoryvault-world-stat">
+                            <i class="fa-solid fa-flag"></i>
+                            <span id="memoryvault_active_goals">0</span> active goals
+                        </div>
+                        <div class="memoryvault-world-stat">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <span id="memoryvault_total_skills">0</span> skills learned
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================================================================
+                 TAB 4: CONFIGURATION
                  ================================================================ -->
             <div class="memoryvault-tab-content" data-tab="configuration">
                 <!-- LLM Strategy Group -->
@@ -413,7 +563,7 @@
             </div>
 
             <!-- ================================================================
-                 TAB 4: SYSTEM
+                 TAB 5: SYSTEM
                  ================================================================ -->
             <div class="memoryvault-tab-content" data-tab="system">
                 <!-- Debug Settings -->

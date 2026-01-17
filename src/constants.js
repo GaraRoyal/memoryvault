@@ -16,6 +16,13 @@ export const RELATIONSHIPS_KEY = 'relationships';
 export const LAST_PROCESSED_KEY = 'last_processed_message_id';
 export const PROCESSED_MESSAGES_KEY = 'processed_message_ids';
 
+// New feature data keys
+export const SECRETS_KEY = 'secrets';           // Secret Knowledge System
+export const LOCATIONS_KEY = 'locations';       // Location Memory System
+export const PROMISES_KEY = 'promises';         // Promises & Debts System
+export const GOALS_KEY = 'goals';               // Character Goals System
+export const SKILLS_KEY = 'skills';             // Skills/Abilities System
+
 // Default settings
 export const defaultSettings = {
     enabled: true,
@@ -53,6 +60,19 @@ export const defaultSettings = {
     trustDecayRate: 0.1,                // High trust decay per interval
     // Branch awareness settings
     branchPruningEnabled: true,         // Auto-prune memories on branch switch
+    // Secret Knowledge settings
+    secretKnowledgeEnabled: true,       // Enable secret/knowledge filtering
+    // Location Memory settings
+    locationMemoryEnabled: true,        // Enable location-based memory recall
+    locationBoostWeight: 2.0,           // Boost factor for same-location memories
+    // Promises & Debts settings
+    promisesEnabled: true,              // Enable promise/debt tracking
+    promiseReminderThreshold: 10,       // Messages before reminding of pending promises
+    // Character Goals settings
+    goalsEnabled: true,                 // Enable goal tracking
+    goalRelevanceBoost: 1.5,            // Boost for goal-related memories
+    // Skills/Abilities settings
+    skillsEnabled: true,                // Enable skill tracking
 };
 
 // Timeout constants

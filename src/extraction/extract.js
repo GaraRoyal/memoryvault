@@ -10,7 +10,15 @@ import { getOpenVaultData, saveOpenVaultData, log, isExtensionEnabled } from '..
 import { extensionName, MEMORIES_KEY, LAST_PROCESSED_KEY, PROCESSED_MESSAGES_KEY } from '../constants.js';
 import { callLLMForExtraction } from '../llm.js';
 import { buildExtractionPrompt } from '../prompts.js';
-import { parseExtractionResult, updateCharacterStatesFromEvents, updateRelationshipsFromEvents } from './parser.js';
+import {
+    parseExtractionResult,
+    updateCharacterStatesFromEvents,
+    updateRelationshipsFromEvents,
+    processPromisesFromEvents,
+    processGoalsFromEvents,
+    processSkillsFromEvents,
+    processLocationsFromEvents,
+} from './parser.js';
 import { applyRelationshipDecay } from '../simulation.js';
 import { selectMemoriesForExtraction } from './context-builder.js';
 import { enrichEventsWithEmbeddings } from '../embeddings.js';
@@ -154,6 +162,12 @@ export async function extractMemories(messageIds = null, targetChatId = null) {
                 // Update character states and relationships
                 updateCharacterStatesFromEvents(uniqueEvents, data);
                 updateRelationshipsFromEvents(uniqueEvents, data);
+
+                // Process new feature data from events
+                processPromisesFromEvents(uniqueEvents, data);
+                processGoalsFromEvents(uniqueEvents, data);
+                processSkillsFromEvents(uniqueEvents, data);
+                await processLocationsFromEvents(uniqueEvents);
             }
 
             // Update last processed message ID

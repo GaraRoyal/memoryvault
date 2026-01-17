@@ -3,10 +3,12 @@
  *
  * Parses LLM extraction results and updates character states and relationships.
  * Enhanced with emotion history tracking and expanded relationship dimensions.
+ * Now also processes promises, goals, skills, and secret knowledge.
  */
 
 import { generateId, safeParseJSON } from '../utils.js';
-import { CHARACTERS_KEY, RELATIONSHIPS_KEY } from '../constants.js';
+import { CHARACTERS_KEY, RELATIONSHIPS_KEY, PROMISES_KEY, GOALS_KEY, SKILLS_KEY } from '../constants.js';
+import { processMemoryLocation } from '../systems/locations.js';
 
 // Maximum emotion history entries to keep per character
 const MAX_EMOTION_HISTORY = 50;
@@ -44,6 +46,10 @@ export function parseExtractionResult(jsonString, messages, characterName, userN
         witnesses: event.witnesses || event.characters_involved || [],
         location: event.location || null,
         is_secret: event.is_secret || false,
+        // Secret knowledge tracking: who knows about this memory
+        known_by: event.is_secret
+            ? (event.known_by || event.witnesses || event.characters_involved || [])
+            : null,
         importance: Math.min(5, Math.max(1, event.importance || 3)), // Clamp to 1-5, default 3
         // New emotional fields
         emotional_tone: event.emotional_tone || [],
@@ -52,6 +58,10 @@ export function parseExtractionResult(jsonString, messages, characterName, userN
             : 0,
         emotional_impact: event.emotional_impact || {},
         relationship_impact: event.relationship_impact || {},
+        // New feature fields (stored with memory for reference, also processed into separate stores)
+        promise: event.promise || null,
+        goal: event.goal || null,
+        skill: event.skill || null,
         // Pinned memories are always included in retrieval
         pinned: false,
     }));
@@ -302,4 +312,144 @@ function applyLegacyImpact(rel, impactStr) {
  */
 function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
+}
+
+/**
+ * Process promises extracted from events
+ * @param {Array} events - Extracted events
+ * @param {Object} data - MemoryVault data object
+ */
+export function processPromisesFromEvents(events, data) {
+    data[PROMISES_KEY] = data[PROMISES_KEY] || {};
+
+    for (const event of events) {
+        if (event.promise && event.promise.from && event.promise.to && event.promise.content) {
+            const promiseId = `promise_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+            data[PROMISES_KEY][promiseId] = {
+                id: promiseId,
+                from: event.promise.from,
+                to: event.promise.to,
+                content: event.promise.content,
+                context: event.summary || '',
+                made_at: Date.now(),
+                made_at_message: event.message_ids?.length > 0 ? Math.max(...event.message_ids) : 0,
+                deadline: event.promise.deadline || null,
+                status: 'pending',
+                status_changed_at: null,
+                importance: event.importance || 3,
+                source_memory_id: event.id,
+                tags: [],
+            };
+        }
+    }
+}
+
+/**
+ * Process goals extracted from events
+ * @param {Array} events - Extracted events
+ * @param {Object} data - MemoryVault data object
+ */
+export function processGoalsFromEvents(events, data) {
+    data[GOALS_KEY] = data[GOALS_KEY] || {};
+
+    for (const event of events) {
+        if (event.goal && event.goal.character && event.goal.goal) {
+            const charName = event.goal.character;
+
+            if (!data[GOALS_KEY][charName]) {
+                data[GOALS_KEY][charName] = [];
+            }
+
+            // Check if similar goal already exists
+            const existingGoal = data[GOALS_KEY][charName].find(g =>
+                g.goal.toLowerCase() === event.goal.goal.toLowerCase()
+            );
+
+            if (!existingGoal) {
+                const goalId = `goal_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+                data[GOALS_KEY][charName].push({
+                    id: goalId,
+                    goal: event.goal.goal,
+                    motivation: event.goal.motivation || '',
+                    priority: 'medium',
+                    status: 'active',
+                    created_at: Date.now(),
+                    status_changed_at: null,
+                    deadline: null,
+                    progress_notes: [],
+                    related_memory_ids: [event.id],
+                    obstacles: [],
+                    source_memory_id: event.id,
+                    tags: [],
+                });
+            }
+        }
+    }
+}
+
+/**
+ * Process skills extracted from events
+ * @param {Array} events - Extracted events
+ * @param {Object} data - MemoryVault data object
+ */
+export function processSkillsFromEvents(events, data) {
+    data[SKILLS_KEY] = data[SKILLS_KEY] || {};
+
+    for (const event of events) {
+        if (event.skill && event.skill.character && event.skill.skill) {
+            const charName = event.skill.character;
+
+            if (!data[SKILLS_KEY][charName]) {
+                data[SKILLS_KEY][charName] = [];
+            }
+
+            // Check if skill already exists
+            const existingSkill = data[SKILLS_KEY][charName].find(s =>
+                s.skill.toLowerCase() === event.skill.skill.toLowerCase()
+            );
+
+            if (existingSkill) {
+                // Update existing skill - maybe improve proficiency or add note
+                if (!existingSkill.related_memory_ids.includes(event.id)) {
+                    existingSkill.related_memory_ids.push(event.id);
+                }
+                existingSkill.last_used = Date.now();
+                existingSkill.use_count = (existingSkill.use_count || 0) + 1;
+            } else {
+                // Create new skill
+                const skillId = `skill_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+                data[SKILLS_KEY][charName].push({
+                    id: skillId,
+                    skill: event.skill.skill,
+                    category: event.skill.category || 'other',
+                    description: '',
+                    proficiency: 'novice',
+                    learned_at: Date.now(),
+                    last_used: Date.now(),
+                    use_count: 1,
+                    source: event.skill.source || 'unknown',
+                    teacher: event.skill.teacher || null,
+                    source_memory_id: event.id,
+                    related_memory_ids: [event.id],
+                    notes: [],
+                    tags: [],
+                });
+            }
+        }
+    }
+}
+
+/**
+ * Process location linking for events
+ * @param {Array} events - Extracted events
+ */
+export async function processLocationsFromEvents(events) {
+    for (const event of events) {
+        if (event.location) {
+            await processMemoryLocation(event);
+        }
+    }
 }
