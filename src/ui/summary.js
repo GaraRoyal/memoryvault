@@ -5,7 +5,15 @@
  */
 
 import { showToast } from '../utils.js';
-import { generateSummary, getCurrentSummary, getSummaryHistory, injectSummaryToChat } from '../systems/summary.js';
+import {
+    generateSummary,
+    getCurrentSummary,
+    getSummaryHistory,
+    injectSummaryToChat,
+    injectSummaryToPrompt,
+    removeSummaryFromPrompt,
+    isSummaryInjected
+} from '../systems/summary.js';
 
 /**
  * Format a timestamp for display
@@ -47,24 +55,46 @@ function setStatus(message, type = 'loading') {
 }
 
 /**
+ * Update the injection status indicator
+ */
+function updateInjectionStatus() {
+    const $indicator = $('#memoryvault_injection_status');
+    const $hiddenBtn = $('#memoryvault_inject_hidden_btn');
+
+    if (isSummaryInjected()) {
+        $indicator.addClass('active').text('Summary is active in system prompt (AI can read it)');
+        $hiddenBtn.addClass('active').html('<i class="fa-solid fa-eye"></i> Remove from Prompt');
+    } else {
+        $indicator.removeClass('active').text('');
+        $hiddenBtn.removeClass('active').html('<i class="fa-solid fa-eye-slash"></i> To Prompt (Hidden)');
+    }
+}
+
+/**
  * Render the current summary display
  */
 export function renderCurrentSummary() {
     const summary = getCurrentSummary();
     const $content = $('#memoryvault_summary_content');
     const $meta = $('#memoryvault_summary_meta');
-    const $injectBtn = $('#memoryvault_inject_summary_btn');
+    const $visibleBtn = $('#memoryvault_inject_visible_btn');
+    const $hiddenBtn = $('#memoryvault_inject_hidden_btn');
 
     if (!summary || !summary.text) {
         $content.html('<p class="memoryvault-placeholder">No summary generated yet. Click "Generate Summary" to create one.</p>');
         $meta.text('');
-        $injectBtn.prop('disabled', true);
+        $visibleBtn.prop('disabled', true);
+        $hiddenBtn.prop('disabled', true);
         return;
     }
 
     $content.text(summary.text);
     $meta.text(`${summary.word_count} words | ${summary.memory_count} memories | ${formatDate(summary.generated_at)}`);
-    $injectBtn.prop('disabled', false);
+    $visibleBtn.prop('disabled', false);
+    $hiddenBtn.prop('disabled', false);
+
+    // Update injection status indicator
+    updateInjectionStatus();
 }
 
 /**
@@ -137,31 +167,62 @@ async function handleGenerateSummary() {
 }
 
 /**
- * Handle injecting summary to chat
+ * Handle injecting summary to chat (visible)
  */
-async function handleInjectSummary() {
+async function handleInjectVisible() {
     const summary = getCurrentSummary();
     if (!summary || !summary.text) {
         showToast('warning', 'No summary to inject');
         return;
     }
 
-    const $btn = $('#memoryvault_inject_summary_btn');
+    const $btn = $('#memoryvault_inject_visible_btn');
     $btn.prop('disabled', true);
 
     try {
         const success = await injectSummaryToChat(summary.text);
 
         if (success) {
-            showToast('success', 'Summary injected to chat');
+            showToast('success', 'Summary added to chat (visible)');
         } else {
-            showToast('error', 'Failed to inject summary');
+            showToast('error', 'Failed to inject summary to chat');
         }
     } catch (error) {
-        showToast('error', 'Failed to inject summary');
+        showToast('error', 'Failed to inject summary to chat');
     } finally {
         $btn.prop('disabled', false);
     }
+}
+
+/**
+ * Handle toggling summary in system prompt (hidden)
+ */
+function handleToggleHidden() {
+    const summary = getCurrentSummary();
+    if (!summary || !summary.text) {
+        showToast('warning', 'No summary to inject');
+        return;
+    }
+
+    if (isSummaryInjected()) {
+        // Remove from prompt
+        const success = removeSummaryFromPrompt();
+        if (success) {
+            showToast('success', 'Summary removed from system prompt');
+        } else {
+            showToast('error', 'Failed to remove summary');
+        }
+    } else {
+        // Inject to prompt
+        const success = injectSummaryToPrompt(summary.text);
+        if (success) {
+            showToast('success', 'Summary injected to system prompt (AI can read it)');
+        } else {
+            showToast('error', 'Failed to inject summary to prompt');
+        }
+    }
+
+    updateInjectionStatus();
 }
 
 /**
@@ -188,8 +249,11 @@ export function initSummary() {
     // Generate button
     $('#memoryvault_generate_summary_btn').on('click', handleGenerateSummary);
 
-    // Inject button
-    $('#memoryvault_inject_summary_btn').on('click', handleInjectSummary);
+    // Visible injection button (to chat)
+    $('#memoryvault_inject_visible_btn').on('click', handleInjectVisible);
+
+    // Hidden injection button (to system prompt) - toggle
+    $('#memoryvault_inject_hidden_btn').on('click', handleToggleHidden);
 
     // Word limit slider
     $('#memoryvault_summary_words').on('input', function() {
@@ -210,4 +274,5 @@ export function initSummary() {
 export function refreshSummary() {
     renderCurrentSummary();
     renderSummaryHistory();
+    updateInjectionStatus();
 }

@@ -5,9 +5,12 @@
  */
 
 import { getDeps } from '../deps.js';
-import { getOpenVaultData, saveOpenVaultData, log } from '../utils.js';
+import { getOpenVaultData, saveOpenVaultData, log, safeSetExtensionPrompt } from '../utils.js';
 import { extensionName, MEMORIES_KEY, CHARACTERS_KEY, RELATIONSHIPS_KEY, SUMMARY_KEY } from '../constants.js';
 import { callLLMForExtraction } from '../llm.js';
+
+// Track if summary is currently injected into system prompt
+let summaryInjected = false;
 
 /**
  * Build a prompt to generate a story summary
@@ -217,4 +220,83 @@ export async function deleteSummary() {
     data[SUMMARY_KEY].current = null;
     await saveOpenVaultData();
     return true;
+}
+
+/**
+ * Inject summary into the system prompt (invisible to user, visible to AI)
+ * This uses a separate injection slot so it doesn't conflict with memory injection
+ * @param {string} summary - Summary text to inject
+ * @returns {boolean} Success status
+ */
+export function injectSummaryToPrompt(summary) {
+    if (!summary) {
+        return false;
+    }
+
+    try {
+        const formattedSummary = `[Story Summary - Key events and context from earlier in this narrative]\n\n${summary}`;
+
+        // Use extension prompt with a unique identifier for summary
+        // This injects into the system prompt where the AI can read it
+        const deps = getDeps();
+        if (typeof deps.setExtensionPrompt === 'function') {
+            deps.setExtensionPrompt(
+                'memoryvault_summary',  // Unique key for summary injection
+                formattedSummary,
+                1,  // Extension prompt position (after main prompt)
+                0   // Depth (0 = at the end of system prompt)
+            );
+            summaryInjected = true;
+            log('Summary injected into system prompt (invisible)');
+            return true;
+        }
+
+        return false;
+    } catch (error) {
+        getDeps().console.error('[MemoryVault] Failed to inject summary to prompt:', error);
+        return false;
+    }
+}
+
+/**
+ * Remove summary from system prompt
+ * @returns {boolean} Success status
+ */
+export function removeSummaryFromPrompt() {
+    try {
+        const deps = getDeps();
+        if (typeof deps.setExtensionPrompt === 'function') {
+            deps.setExtensionPrompt('memoryvault_summary', '', 1, 0);
+            summaryInjected = false;
+            log('Summary removed from system prompt');
+            return true;
+        }
+        return false;
+    } catch (error) {
+        getDeps().console.error('[MemoryVault] Failed to remove summary from prompt:', error);
+        return false;
+    }
+}
+
+/**
+ * Check if summary is currently injected into system prompt
+ * @returns {boolean} Injection status
+ */
+export function isSummaryInjected() {
+    return summaryInjected;
+}
+
+/**
+ * Toggle summary injection in system prompt
+ * @param {string} summary - Summary text
+ * @returns {boolean} New injection state
+ */
+export function toggleSummaryInjection(summary) {
+    if (summaryInjected) {
+        removeSummaryFromPrompt();
+        return false;
+    } else {
+        injectSummaryToPrompt(summary);
+        return true;
+    }
 }

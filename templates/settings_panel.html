@@ -399,9 +399,20 @@
                         <button id="memoryvault_generate_summary_btn" class="menu_button">
                             <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Summary
                         </button>
-                        <button id="memoryvault_inject_summary_btn" class="menu_button" disabled>
-                            <i class="fa-solid fa-syringe"></i> Inject to Chat
-                        </button>
+                    </div>
+
+                    <!-- Injection Options -->
+                    <div class="memoryvault-injection-options">
+                        <div class="memoryvault-injection-label">Inject Summary:</div>
+                        <div class="memoryvault-button-row">
+                            <button id="memoryvault_inject_visible_btn" class="menu_button" disabled title="Add as visible message in chat">
+                                <i class="fa-solid fa-comment"></i> To Chat (Visible)
+                            </button>
+                            <button id="memoryvault_inject_hidden_btn" class="menu_button" disabled title="Add to system prompt (AI reads it, you don't see it)">
+                                <i class="fa-solid fa-eye-slash"></i> To Prompt (Hidden)
+                            </button>
+                        </div>
+                        <div id="memoryvault_injection_status" class="memoryvault-injection-indicator"></div>
                     </div>
 
                     <!-- Status -->

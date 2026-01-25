@@ -1937,6 +1937,51 @@
     margin-top: 4px;
 }
 
+/* Injection Options */
+.memoryvault-injection-options {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--SmartThemeBorderColor, #333);
+}
+
+.memoryvault-injection-label {
+    font-size: 0.9em;
+    margin-bottom: 8px;
+    color: var(--SmartThemeEmColor, #888);
+}
+
+.memoryvault-injection-indicator {
+    margin-top: 8px;
+    font-size: 0.85em;
+    padding: 6px 10px;
+    border-radius: 4px;
+    display: none;
+}
+
+.memoryvault-injection-indicator.active {
+    display: block;
+    background: rgba(74, 170, 74, 0.15);
+    color: #4a4;
+}
+
+.memoryvault-injection-indicator.active::before {
+    content: '\f06e';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    margin-right: 6px;
+}
+
+/* Button states for injection toggle */
+.memoryvault-injection-options .menu_button.active {
+    background: var(--SmartThemeEmColor, #48c);
+    color: white;
+}
+
+.memoryvault-injection-options .menu_button.active:hover {
+    background: var(--SmartThemeEmColor, #48c);
+    filter: brightness(1.1);
+}
+
 
 /* source: utils.css */
 /* Utilities - Badge, Placeholder, Footer, Help */
