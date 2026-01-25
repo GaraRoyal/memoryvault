@@ -226,6 +226,7 @@ function renderRelationshipTemplate(relData) {
                         <div class="memoryvault-bar-fill trust" style="width: ${relData.trustPercent}%"></div>
                     </div>
                     <span class="memoryvault-bar-value">${relData.trust}</span>
+                    <span class="memoryvault-bar-desc">${relData.trustLabel}</span>
                 </div>
                 <div class="memoryvault-bar-row">
                     <span class="memoryvault-bar-label">Tension</span>
@@ -233,6 +234,7 @@ function renderRelationshipTemplate(relData) {
                         <div class="memoryvault-bar-fill tension" style="width: ${relData.tensionPercent}%"></div>
                     </div>
                     <span class="memoryvault-bar-value">${relData.tension}</span>
+                    <span class="memoryvault-bar-desc">${relData.tensionLabel}</span>
                 </div>
                 <div class="memoryvault-bar-row">
                     <span class="memoryvault-bar-label">Respect</span>
@@ -240,6 +242,7 @@ function renderRelationshipTemplate(relData) {
                         <div class="memoryvault-bar-fill respect" style="width: ${relData.respectPercent}%"></div>
                     </div>
                     <span class="memoryvault-bar-value">${relData.respect}</span>
+                    <span class="memoryvault-bar-desc">${relData.respectLabel}</span>
                 </div>
                 <div class="memoryvault-bar-row">
                     <span class="memoryvault-bar-label">Attraction</span>
@@ -247,6 +250,7 @@ function renderRelationshipTemplate(relData) {
                         <div class="memoryvault-bar-fill attraction" style="width: ${relData.attractionPercent}%"></div>
                     </div>
                     <span class="memoryvault-bar-value">${relData.attraction}</span>
+                    <span class="memoryvault-bar-desc">${relData.attractionLabel}</span>
                 </div>
                 <div class="memoryvault-bar-row">
                     <span class="memoryvault-bar-label">Fear</span>
@@ -254,6 +258,7 @@ function renderRelationshipTemplate(relData) {
                         <div class="memoryvault-bar-fill fear" style="width: ${relData.fearPercent}%"></div>
                     </div>
                     <span class="memoryvault-bar-value">${relData.fear}</span>
+                    <span class="memoryvault-bar-desc">${relData.fearLabel}</span>
                 </div>
                 <div class="memoryvault-bar-row">
                     <span class="memoryvault-bar-label">Loyalty</span>
@@ -261,6 +266,7 @@ function renderRelationshipTemplate(relData) {
                         <div class="memoryvault-bar-fill loyalty" style="width: ${relData.loyaltyPercent}%"></div>
                     </div>
                     <span class="memoryvault-bar-value">${relData.loyalty}</span>
+                    <span class="memoryvault-bar-desc">${relData.loyaltyLabel}</span>
                 </div>
                 <div class="memoryvault-bar-row">
                     <span class="memoryvault-bar-label">Familiarity</span>
@@ -268,6 +274,7 @@ function renderRelationshipTemplate(relData) {
                         <div class="memoryvault-bar-fill familiarity" style="width: ${relData.familiarityPercent}%"></div>
                     </div>
                     <span class="memoryvault-bar-value">${relData.familiarity}</span>
+                    <span class="memoryvault-bar-desc">${relData.familiarityLabel}</span>
                 </div>
             </div>
         </div>

@@ -97,34 +97,78 @@ export function buildCharacterStateData(name, charData) {
 }
 
 /**
+ * Get descriptive label for a relationship dimension value
+ * @param {number} value - Value from 0-10
+ * @param {string} dimension - Dimension name for context
+ * @returns {string} Descriptive label
+ */
+export function getDimensionLabel(value, dimension) {
+    // Dimensions where 5 is neutral (can go positive or negative)
+    const neutralDimensions = ['trust', 'respect', 'loyalty'];
+    // Dimensions where 0 is none/absent (only go up from 0)
+    const absenceDimensions = ['tension', 'attraction', 'fear', 'familiarity'];
+
+    if (neutralDimensions.includes(dimension)) {
+        // 0-2: Very Low, 3-4: Low, 5: Neutral, 6-7: High, 8-10: Very High
+        if (value <= 2) return 'Very Low';
+        if (value <= 4) return 'Low';
+        if (value === 5) return 'Neutral';
+        if (value <= 7) return 'High';
+        return 'Very High';
+    } else {
+        // 0: None, 1-3: Low, 4-6: Moderate, 7-8: High, 9-10: Very High
+        if (value === 0) return 'None';
+        if (value <= 3) return 'Low';
+        if (value <= 6) return 'Moderate';
+        if (value <= 8) return 'High';
+        return 'Very High';
+    }
+}
+
+/**
  * Build relationship display data
- * Now includes expanded relationship dimensions
+ * Now includes expanded relationship dimensions with descriptive labels
  * @param {string} key - Relationship key
  * @param {Object} relData - Relationship data
  * @returns {Object} Display-ready relationship data
  */
 export function buildRelationshipData(key, relData) {
+    const trust = relData.trust_level ?? 5;
+    const tension = relData.tension_level ?? 0;
+    const respect = relData.respect_level ?? 5;
+    const attraction = relData.attraction_level ?? 0;
+    const fear = relData.fear_level ?? 0;
+    const loyalty = relData.loyalty_level ?? 5;
+    const familiarity = relData.familiarity_level ?? 1;
+
     return {
         key,
         characterA: relData.character_a || '?',
         characterB: relData.character_b || '?',
         type: relData.relationship_type || 'acquaintance',
-        // Core dimensions
-        trust: relData.trust_level ?? 5,
-        trustPercent: (relData.trust_level ?? 5) * 10,
-        tension: relData.tension_level ?? 0,
-        tensionPercent: (relData.tension_level ?? 0) * 10,
-        // Expanded dimensions
-        respect: relData.respect_level ?? 5,
-        respectPercent: (relData.respect_level ?? 5) * 10,
-        attraction: relData.attraction_level ?? 0,
-        attractionPercent: (relData.attraction_level ?? 0) * 10,
-        fear: relData.fear_level ?? 0,
-        fearPercent: (relData.fear_level ?? 0) * 10,
-        loyalty: relData.loyalty_level ?? 5,
-        loyaltyPercent: (relData.loyalty_level ?? 5) * 10,
-        familiarity: relData.familiarity_level ?? 1,
-        familiarityPercent: (relData.familiarity_level ?? 1) * 10,
+        // Core dimensions with labels
+        trust,
+        trustPercent: trust * 10,
+        trustLabel: getDimensionLabel(trust, 'trust'),
+        tension,
+        tensionPercent: tension * 10,
+        tensionLabel: getDimensionLabel(tension, 'tension'),
+        // Expanded dimensions with labels
+        respect,
+        respectPercent: respect * 10,
+        respectLabel: getDimensionLabel(respect, 'respect'),
+        attraction,
+        attractionPercent: attraction * 10,
+        attractionLabel: getDimensionLabel(attraction, 'attraction'),
+        fear,
+        fearPercent: fear * 10,
+        fearLabel: getDimensionLabel(fear, 'fear'),
+        loyalty,
+        loyaltyPercent: loyalty * 10,
+        loyaltyLabel: getDimensionLabel(loyalty, 'loyalty'),
+        familiarity,
+        familiarityPercent: familiarity * 10,
+        familiarityLabel: getDimensionLabel(familiarity, 'familiarity'),
     };
 }
 

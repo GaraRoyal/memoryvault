@@ -170,7 +170,22 @@
 
 .memoryvault-bar-label {
     font-size: 0.8em;
+    width: 70px;
+}
+
+.memoryvault-bar-value {
+    font-size: 0.75em;
+    width: 20px;
+    text-align: center;
+    color: var(--SmartThemeEmColor, #888);
+}
+
+.memoryvault-bar-desc {
+    font-size: 0.7em;
     width: 60px;
+    text-align: right;
+    color: var(--SmartThemeEmColor, #888);
+    font-style: italic;
 }
 
 .memoryvault-bar-container {

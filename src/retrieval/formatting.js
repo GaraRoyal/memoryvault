@@ -8,7 +8,36 @@ import { RELATIONSHIPS_KEY } from '../constants.js';
 import { sortMemoriesBySequence, estimateTokens } from '../utils.js';
 
 /**
+ * Get descriptive label for a relationship dimension value
+ * Scale: 0-10 where meaning depends on dimension type
+ * @param {number} value - Value from 0-10
+ * @param {string} dimension - Dimension name
+ * @returns {string} Descriptive label
+ */
+function getDimensionLabel(value, dimension) {
+    // Dimensions where 5 is neutral (can go positive or negative)
+    const neutralDimensions = ['trust', 'respect', 'loyalty'];
+
+    if (neutralDimensions.includes(dimension)) {
+        // 0-2: very low, 3-4: low, 5: neutral, 6-7: high, 8-10: very high
+        if (value <= 2) return 'very low';
+        if (value <= 4) return 'low';
+        if (value === 5) return 'neutral';
+        if (value <= 7) return 'high';
+        return 'very high';
+    } else {
+        // 0: none, 1-3: low, 4-6: moderate, 7-8: high, 9-10: very high
+        if (value === 0) return 'none';
+        if (value <= 3) return 'low';
+        if (value <= 6) return 'moderate';
+        if (value <= 8) return 'high';
+        return 'very high';
+    }
+}
+
+/**
  * Get relationship context for active characters
+ * Now includes all 7 relationship dimensions
  * @param {Object} data - OpenVault data
  * @param {string} povCharacter - POV character name
  * @param {string[]} activeCharacters - List of active characters
@@ -29,9 +58,15 @@ export function getRelationshipContext(data, povCharacter, activeCharacters) {
             const other = rel.character_a === povCharacter ? rel.character_b : rel.character_a;
             relevant.push({
                 character: other,
-                trust: rel.trust_level,
-                tension: rel.tension_level,
                 type: rel.relationship_type,
+                // All 7 dimensions with defaults
+                trust: rel.trust_level ?? 5,
+                tension: rel.tension_level ?? 0,
+                respect: rel.respect_level ?? 5,
+                attraction: rel.attraction_level ?? 0,
+                fear: rel.fear_level ?? 0,
+                loyalty: rel.loyalty_level ?? 5,
+                familiarity: rel.familiarity_level ?? 1,
             });
         }
     }
@@ -86,13 +121,47 @@ export function formatContextForInjection(memories, relationships, emotionalInfo
         headerLines.push('');
     }
 
-    // Relationships
+    // Relationships - now with all 7 dimensions
     if (relationships && relationships.length > 0) {
-        headerLines.push('Relationships with present characters:');
+        headerLines.push('Relationships with present characters (scale: 0-10, 5=neutral for trust/respect/loyalty):');
         for (const rel of relationships) {
-            const trustDesc = rel.trust >= 7 ? 'high trust' : rel.trust <= 3 ? 'low trust' : 'moderate trust';
-            const tensionDesc = rel.tension >= 7 ? 'high tension' : rel.tension >= 4 ? 'some tension' : '';
-            headerLines.push(`- ${rel.character}: ${rel.type || 'acquaintance'} (${trustDesc}${tensionDesc ? ', ' + tensionDesc : ''})`);
+            // Build dimension descriptions, only include non-default/notable values
+            const dims = [];
+
+            // Trust (default 5 = neutral)
+            dims.push(`trust: ${getDimensionLabel(rel.trust, 'trust')}`);
+
+            // Respect (default 5 = neutral)
+            if (rel.respect !== 5) {
+                dims.push(`respect: ${getDimensionLabel(rel.respect, 'respect')}`);
+            }
+
+            // Loyalty (default 5 = neutral)
+            if (rel.loyalty !== 5) {
+                dims.push(`loyalty: ${getDimensionLabel(rel.loyalty, 'loyalty')}`);
+            }
+
+            // Tension (default 0 = none)
+            if (rel.tension > 0) {
+                dims.push(`tension: ${getDimensionLabel(rel.tension, 'tension')}`);
+            }
+
+            // Attraction (default 0 = none)
+            if (rel.attraction > 0) {
+                dims.push(`attraction: ${getDimensionLabel(rel.attraction, 'attraction')}`);
+            }
+
+            // Fear (default 0 = none)
+            if (rel.fear > 0) {
+                dims.push(`fear: ${getDimensionLabel(rel.fear, 'fear')}`);
+            }
+
+            // Familiarity (default 1 = low)
+            if (rel.familiarity > 3) {
+                dims.push(`familiarity: ${getDimensionLabel(rel.familiarity, 'familiarity')}`);
+            }
+
+            headerLines.push(`- ${rel.character}: ${rel.type || 'acquaintance'} (${dims.join(', ')})`);
         }
         headerLines.push('');
     }
