@@ -135,7 +135,19 @@ export async function onChatChanged() {
         // memories from messages that don't exist in the branch should be removed
         const pruneResult = pruneMemoriesForBranch();
         if (pruneResult.prunedMemories > 0) {
-            log(`Branch pruning: removed ${pruneResult.prunedMemories} memories, ${pruneResult.prunedCharacterEvents} character events, ${pruneResult.prunedRelationships} relationship updates`);
+            // Build detailed log message
+            const details = [
+                `${pruneResult.prunedMemories} memories`,
+                pruneResult.prunedCharacterEvents > 0 ? `${pruneResult.prunedCharacterEvents} character events` : null,
+                pruneResult.prunedRelationships > 0 ? `${pruneResult.prunedRelationships} relationship updates` : null,
+                pruneResult.prunedPromises > 0 ? `${pruneResult.prunedPromises} promises` : null,
+                pruneResult.prunedGoals > 0 ? `${pruneResult.prunedGoals} goals` : null,
+                pruneResult.prunedSkills > 0 ? `${pruneResult.prunedSkills} skills` : null,
+                pruneResult.prunedLocations > 0 ? `${pruneResult.prunedLocations} location refs` : null,
+                pruneResult.prunedSecrets > 0 ? `${pruneResult.prunedSecrets} secrets` : null,
+            ].filter(Boolean).join(', ');
+
+            log(`Branch pruning: removed ${details}`);
             showToast('info', `Pruned ${pruneResult.prunedMemories} memories for branch compatibility`, 'MemoryVault');
             dataChanged = true;
         }
