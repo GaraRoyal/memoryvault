@@ -194,6 +194,26 @@
     background: #c44;
 }
 
+.memoryvault-bar-fill.respect {
+    background: #48c;
+}
+
+.memoryvault-bar-fill.attraction {
+    background: #c4a;
+}
+
+.memoryvault-bar-fill.fear {
+    background: #a4c;
+}
+
+.memoryvault-bar-fill.loyalty {
+    background: #4ca;
+}
+
+.memoryvault-bar-fill.familiarity {
+    background: #ca4;
+}
+
 /* ============================================================================
    Memory Timeline
    ============================================================================ */

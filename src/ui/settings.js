@@ -14,6 +14,7 @@ import { getOpenVaultData, showToast } from '../utils.js';
 import { scoreMemories } from '../retrieval/math.js';
 import { getScoringParams } from '../retrieval/scoring.js';
 import { initWorldState, refreshWorldState } from './worldstate.js';
+import { initSummary, refreshSummary } from './summary.js';
 
 // References to external functions (set during init)
 let updateEventListenersFn = null;
@@ -177,6 +178,10 @@ export async function loadSettings() {
     initWorldState();
     // Export refresh function globally for cross-module access
     window.memoryvaultRefreshWorldState = refreshWorldState;
+
+    // Initialize Summary UI
+    initSummary();
+    window.memoryvaultRefreshSummary = refreshSummary;
 
     // Inject version from manifest.json
     try {

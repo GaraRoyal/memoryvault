@@ -14,6 +14,7 @@ const files = [
     'components/navigation.css',
     'components/memory.css',
     'components/worldstate.css',
+    'components/summary.css',
     'utils.css'
 ];
 

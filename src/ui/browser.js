@@ -954,4 +954,9 @@ export function refreshAllUI() {
     if (typeof window.memoryvaultRefreshWorldState === 'function') {
         window.memoryvaultRefreshWorldState();
     }
+
+    // Refresh Summary tab if the module is loaded
+    if (typeof window.memoryvaultRefreshSummary === 'function') {
+        window.memoryvaultRefreshSummary();
+    }
 }

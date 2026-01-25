@@ -22,6 +22,7 @@ export const LOCATIONS_KEY = 'locations';       // Location Memory System
 export const PROMISES_KEY = 'promises';         // Promises & Debts System
 export const GOALS_KEY = 'goals';               // Character Goals System
 export const SKILLS_KEY = 'skills';             // Skills/Abilities System
+export const SUMMARY_KEY = 'summary';           // Story Summary System
 
 // Default settings
 export const defaultSettings = {

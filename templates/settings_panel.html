@@ -17,6 +17,9 @@
                 <button class="memoryvault-tab-btn" data-tab="world-state">
                     <i class="fa-solid fa-globe"></i> World State
                 </button>
+                <button class="memoryvault-tab-btn" data-tab="summary">
+                    <i class="fa-solid fa-scroll"></i> Summary
+                </button>
                 <button class="memoryvault-tab-btn" data-tab="configuration">
                     <i class="fa-solid fa-sliders"></i> Config
                 </button>
@@ -373,7 +376,62 @@
             </div>
 
             <!-- ================================================================
-                 TAB 4: CONFIGURATION
+                 TAB 4: SUMMARY
+                 ================================================================ -->
+            <div class="memoryvault-tab-content" data-tab="summary">
+                <!-- Summary Generation Card -->
+                <div class="memoryvault-card">
+                    <div class="memoryvault-card-header">
+                        <span class="memoryvault-card-title"><i class="fa-solid fa-scroll"></i> Story Summary</span>
+                    </div>
+
+                    <!-- Word Limit Slider -->
+                    <div class="memoryvault-summary-controls">
+                        <label for="memoryvault_summary_words">Summary Length</label>
+                        <div class="memoryvault-slider-row">
+                            <input type="range" id="memoryvault_summary_words" min="200" max="2000" step="100" value="1000" />
+                            <span id="memoryvault_summary_words_value">1000 words</span>
+                        </div>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <div class="memoryvault-button-row">
+                        <button id="memoryvault_generate_summary_btn" class="menu_button">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Summary
+                        </button>
+                        <button id="memoryvault_inject_summary_btn" class="menu_button" disabled>
+                            <i class="fa-solid fa-syringe"></i> Inject to Chat
+                        </button>
+                    </div>
+
+                    <!-- Status -->
+                    <div id="memoryvault_summary_status" class="memoryvault-summary-status"></div>
+                </div>
+
+                <!-- Current Summary Display -->
+                <div class="memoryvault-card">
+                    <div class="memoryvault-card-header">
+                        <span class="memoryvault-card-title"><i class="fa-solid fa-book-open"></i> Current Summary</span>
+                        <span id="memoryvault_summary_meta" class="memoryvault-summary-meta"></span>
+                    </div>
+                    <div id="memoryvault_summary_content" class="memoryvault-summary-content">
+                        <p class="memoryvault-placeholder">No summary generated yet. Click "Generate Summary" to create one.</p>
+                    </div>
+                </div>
+
+                <!-- Summary History -->
+                <div class="memoryvault-card">
+                    <div class="memoryvault-card-header">
+                        <span class="memoryvault-card-title"><i class="fa-solid fa-clock-rotate-left"></i> Summary History</span>
+                    </div>
+                    <div id="memoryvault_summary_history" class="memoryvault-summary-history">
+                        <p class="memoryvault-placeholder">No previous summaries</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================================================================
+                 TAB 5: CONFIGURATION
                  ================================================================ -->
             <div class="memoryvault-tab-content" data-tab="configuration">
                 <!-- LLM Strategy Group -->
